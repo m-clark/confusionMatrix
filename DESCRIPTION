@@ -1,11 +1,18 @@
 Package: confusionMatrix
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Confusion Matrix
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+Authors@R: person("Michael", "Clark", role = c("aut", "cre"), email = "micl@umich.edu")
+Maintainer: Michael Clark <micl@umich.edu>
+Description: A hopefully straightforward re-implementation of the function from the `caret` package to simplify input and return 'tidy' results.
+License: CC0
 Encoding: UTF-8
 LazyData: true
+RoxygenNote: 6.1.1
+URL: https://github.com/m-clark/confusionMatrix
+BugReports: https://github.com/m-clark/confusionMatrix/issues
+Year: 2019
+Depends:
+  R (>= 3.4.0)
+Suggests:
+    testthat

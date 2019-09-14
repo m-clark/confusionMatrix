@@ -3,9 +3,10 @@ library(tidyverse)
 # debugonce(confusion_matrix)
 
 library(dplyr)
-out = confusion_matrix(
+confusion_matrix(
   c(0,1,1,0),
   c(0,1,1,1),
+  dnn = c('pred', 'obs'),
   verbose = T,
   return_table = T
 )
@@ -20,3 +21,5 @@ out = confusion_matrix(
 )
 
 out
+
+

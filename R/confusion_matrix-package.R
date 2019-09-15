@@ -1,7 +1,7 @@
 #' @name confusionMatrix
 
 #' @description  The goal of this package is primarily to provide a very easy
-#'   way to provide confustion table metrics in a tidy fashion.  The inspiration
+#'   way to provide confusion table metrics in a tidy fashion.  The inspiration
 #'   and a good chunk of the code borrows heavily from Max Kuhn's caret package
 #'   and associated function \code{confusionMatrix}.  Here, practically all
 #'   dependencies have been removed outside of dplyr, and results return tibbles

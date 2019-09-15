@@ -31,6 +31,9 @@ A (list of) tibble(s) with the associated statistics and possibly the frequency 
 Given a vector of predictions and observed values, calculate
   numerous statistics of interest.
 }
+\details{
+This returns accuracy, agreement, and other statistics. See the functions below to find out more.
+}
 \examples{
 p = c(0,1,1,0)
 o = c(0,1,1,1)
@@ -41,4 +44,7 @@ p = sample(letters[1:4], 250, replace = TRUE, prob = 1:4)
 o = sample(letters[1:4], 250, replace = TRUE, prob = 1:4)
 out = confusion_matrix(p, o, return_table = TRUE)
 
+}
+\seealso{
+\code{\link{calc_accuracy}} \code{\link{calc_agreement}} \code{\link{calc_stats}}
 }

@@ -16,9 +16,7 @@ calc_stats(tabble, prevalence = NULL, positive, ...)
 \item{...}{Other, not currently used}
 }
 \value{
-A tibble with (at present) columns for sensitivity, specificity, positive
-  predictive value (PPV), negative predictive value (NPV), F1 score (aka Dice
-  coefficient), detection rate, detection prevalence, balanced accuracy.  For
+A tibble with (at present) columns for sensitivity, specificity, PPV, NPV, F1 score, detection rate, detection prevalence, balanced accuracy, FDR, FOR, FPR, FNR.  For
   > 2 classes, these statistics are provided for each class.
 }
 \description{
@@ -38,16 +36,39 @@ The formulas used here are:
 \deqn{Sensitivity = A/(A+C)}
 \deqn{Specificity = D/(B+D)}
 \deqn{Prevalence = (A+C)/(A+B+C+D)}
-\deqn{PPV = (sensitivity * prevalence)/((sensitivity*prevalence) + ((1-specificity)*(1-prevalence)))}
-\deqn{NPV = (specificity * (1-prevalence))/(((1-sensitivity)*prevalence) + ((specificity)*(1-prevalence)))} \deqn{Detection Rate = A/(A+B+C+D)}
+\deqn{Positive Predictive Value = (sensitivity * prevalence)/((sensitivity*prevalence) + ((1-specificity)*(1-prevalence)))}
+\deqn{Negative Predictive Value = (specificity * (1-prevalence))/(((1-sensitivity)*prevalence) + ((specificity)*(1-prevalence)))} \deqn{Detection Rate = A/(A+B+C+D)}
 \deqn{Detection Prevalence = (A+B)/(A+B+C+D)}
 \deqn{Balanced Accuracy = (sensitivity+specificity)/2}
-
-\deqn{Precision = A/(A+B)} \deqn{Recall = A/(A+C)} \deqn{F1 = (1+beta^2)*precision*recall/((beta^2 * precision)+recall)}
-
+\deqn{Precision = A/(A+B)}
+\deqn{Recall = A/(A+C)}
+\deqn{F1 = harmonic mean of precision and recall = (1+beta^2)*precision*recall/((beta^2 * precision)+recall)}
 where \code{beta = 1} for this function.
+\deqn{False Discovery Rate = 1 - Positive Predictive Value}
+\deqn{False Omission Rate = 1 - Negative Predictive Value}
+\deqn{False Positive Rate = 1 - Specificity}
+\deqn{False Negative Rate = 1 - Sensitivity}
 
 See the references for discussions of the first five formulas.
+Abbreviations:
+\describe{
+  \item{Positive Predictive Value: PPV}{}
+  \item{Negative Predictive Value: NPV}{}
+  \item{False Discovery Rate: FDR}{}
+  \item{False Omission Rate: FOR}{}
+  \item{False Positive Rate: FPR}{}
+  \item{False Negative Rate: FNR}{}
+}
+}
+\note{
+Different names are used for the same statistics.
+\describe{
+  \item{Sensitivity: True Positive Rate, Recall, Hit Rate, Power}{}
+  \item{Specificity: True Negative Rate}{}
+  \item{Positive Predictive Value: Precision}{}
+  \item{False Negative Rate: Miss Rate, Type II error rate, β}{}
+  \item{False Positive Rate: Fallout, Type I error rate, α}{}
+}
 }
 \examples{
 p = sample(letters[1:4], 250, replace = TRUE, prob = 1:4)

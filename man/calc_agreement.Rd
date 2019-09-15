@@ -2,7 +2,7 @@
 % Please edit documentation in R/calc_agreement.R
 \name{calc_agreement}
 \alias{calc_agreement}
-\title{Coefficients Comparing Classification Agreement}
+\title{Coefficients comparing classification agreement}
 \usage{
 calc_agreement(tabble, match.names = FALSE)
 }
@@ -12,24 +12,24 @@ calc_agreement(tabble, match.names = FALSE)
 \item{match.names}{Flag whether row and columns should be matched by name.}
 }
 \value{
-A list with components:
-\item{diag}{Percentage of data points in the main diagonal of \code{tabble}.}
+A tibble with:
 \item{kappa}{\code{diag} corrected for agreement by chance.}
-\item{rand}{Rand index.}
 \item{crand}{Rand index corrected for agreement by chance.}
 }
 \description{
 Computes several coefficients of agreement between the columns
-  and rows of a 2-way contingency table.
+  and rows of a 2-way contingency table. Most of the documentation for this
+  function is copied directly from the \code{matchClasses} function
+  documentation.
 }
 \details{
 Suppose we want to compare two classifications summarized by the
-  ontingency table \eqn{T=[t_{ij}]} where \eqn{i,j=1,\ldots,K} and
+  contingency table \eqn{T=[t_{ij}]} where \eqn{i,j=1,\ldots,K} and
   \eqn{t_{ij}} denotes the number of data points which are in class \eqn{i}
   in the first partition and in class \eqn{j} in the second partition. If
   both classifications use the same labels, then obviously the two
   classification agree completely if only elements in the main diagonal of
-  the table are non-zero. On the other hand, large off-diagonal lements
+  the table are non-zero. On the other hand, large off-diagonal elements
   correspond to smaller agreement between the two classifications. If
   \code{match.names} is \code{TRUE}, the class labels as given by the row and
   column names are matched, i.e. only columns and rows with the same dimnames
@@ -72,7 +72,8 @@ Suppose we want to compare two classifications summarized by the
 
 }
 \references{
-J.~Cohen. A coefficient of agreement for nominal scales. Educational and Psychological Measurement, 20, 37--46, 1960.
+Cohen. J. A coefficient of agreement for nominal scales. Educational and Psychological Measurement, 20, 37--46, 1960.
+
 Lawrence Hubert and Phipps Arabie. Comparing partitions. Journal of Classification, 2, 193--218, 1985.
 }
 \seealso{

@@ -11,6 +11,10 @@
 #' @param prevalence Prevalance rate.  Default is \code{NULL}.
 #' @param ... Other parameters, not currently used.
 #'
+#' @details This returns accuracy, agreement, and other statistics. See the functions below to find out more.
+#'
+#' @seealso \code{\link{calc_accuracy}} \code{\link{calc_agreement}} \code{\link{calc_stats}}
+#'
 #' @return A (list of) tibble(s) with the associated statistics and possibly the frequency table.
 #' @importFrom dplyr mutate everything %>%
 #' @examples
@@ -87,7 +91,7 @@ confusion_matrix <- function(
   numLevels <- length(classLevels)
 
   if(numLevels < 2)
-    stop("there must be at least 2 factors levels in the prediction")
+    stop("there must be at least 2 factors levels in the observed")
 
   if(numLevels == 2 & is.null(positive))  positive <- levels(observed)[1]
 

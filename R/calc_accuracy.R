@@ -3,11 +3,14 @@
 #' @description Calculates accuracy and related metrics.
 #'
 #' @param tabble A frequency table created with \code{\link{table}}
-#' @details Used within confusion_matrix to calculate accuaracy, lower and upper
+#'
+#' @details Used within confusion_matrix to calculate accuracy, lower and upper
 #'   bounds, the guessing rate and p-value of the accuracy vs. the guessing
 #'   rate. Not really meant to be called by the user.
 #'
 #' @return A tibble with the corresponding statistics
+#'
+#' @seealso \code{\link{binom.test}}
 #'
 #' @examples
 #' p = sample(letters[1:4], 250, replace = TRUE, prob = 1:4)
@@ -19,22 +22,25 @@
 #' @export
 calc_accuracy <- function(tabble) {
 
-  acc = sum(diag(tabble))/sum(tabble)
+  acc <- sum(diag(tabble))/sum(tabble)
 
-  acc_ci <- try(stats::binom.test(sum(diag(tabble)), sum(tabble))$conf.int, silent = TRUE)
+  acc_ci <-
+    try(
+      stats::binom.test(sum(diag(tabble)), sum(tabble))$conf.int,
+      silent = TRUE
+    )
+
   if(inherits(acc_ci, "try-error"))
     acc_ci <- rep(NA, 2)
 
-
   acc_p <- try(
-    binom.test(
+    stats::binom.test(
       sum(diag(tabble)),
       sum(tabble),
       p = max(colSums(tabble)/sum(tabble)),
       alternative = "greater"
     ),
     silent = TRUE)
-
 
   if (inherits(acc_p, "try-error"))
       acc_p <- c("null.value.probability of success" = NA, p.value = NA)
@@ -49,11 +55,3 @@ calc_accuracy <- function(tabble) {
     `Accuracy P-value` = acc_p[2]
   )
 }
-
-
-# propCI <- function(tabble) {
-# }
-#
-# propTest <- function(tabble){
-#
-# }

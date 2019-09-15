@@ -1,6 +1,8 @@
 #' Calculate various statistics from a confusion matrix
+#'
 #' @description Given a frequency table of predictions versus observed values,
 #'   calculate numerous statistics of interest.
+#'
 #' @param tabble  A frequency table created with \code{\link{table}}
 #' @param prevalence Prevalance value. Default is \code{NULL}
 #' @param positive Positive class
@@ -17,20 +19,41 @@
 #' \deqn{Sensitivity = A/(A+C)}
 #' \deqn{Specificity = D/(B+D)}
 #' \deqn{Prevalence = (A+C)/(A+B+C+D)}
-#' \deqn{PPV = (sensitivity * prevalence)/((sensitivity*prevalence) + ((1-specificity)*(1-prevalence)))}
-#' \deqn{NPV = (specificity * (1-prevalence))/(((1-sensitivity)*prevalence) + ((specificity)*(1-prevalence)))} \deqn{Detection Rate = A/(A+B+C+D)}
+#' \deqn{Positive Predictive Value = (sensitivity * prevalence)/((sensitivity*prevalence) + ((1-specificity)*(1-prevalence)))}
+#' \deqn{Negative Predictive Value = (specificity * (1-prevalence))/(((1-sensitivity)*prevalence) + ((specificity)*(1-prevalence)))} \deqn{Detection Rate = A/(A+B+C+D)}
 #' \deqn{Detection Prevalence = (A+B)/(A+B+C+D)}
 #' \deqn{Balanced Accuracy = (sensitivity+specificity)/2}
-#'
-#' \deqn{Precision = A/(A+B)} \deqn{Recall = A/(A+C)} \deqn{F1 = (1+beta^2)*precision*recall/((beta^2 * precision)+recall)}
-#'
+#' \deqn{Precision = A/(A+B)}
+#' \deqn{Recall = A/(A+C)}
+#' \deqn{F1 = harmonic mean of precision and recall = (1+beta^2)*precision*recall/((beta^2 * precision)+recall)}
 #' where \code{beta = 1} for this function.
+#' \deqn{False Discovery Rate = 1 - Positive Predictive Value}
+#' \deqn{False Omission Rate = 1 - Negative Predictive Value}
+#' \deqn{False Positive Rate = 1 - Specificity}
+#' \deqn{False Negative Rate = 1 - Sensitivity}
 #'
 #' See the references for discussions of the first five formulas.
+#' Abbreviations:
+#' \describe{
+#'   \item{Positive Predictive Value: PPV}{}
+#'   \item{Negative Predictive Value: NPV}{}
+#'   \item{False Discovery Rate: FDR}{}
+#'   \item{False Omission Rate: FOR}{}
+#'   \item{False Positive Rate: FPR}{}
+#'   \item{False Negative Rate: FNR}{}
+#' }
+
+#' @note Different names are used for the same statistics.
+#' \describe{
+#'   \item{Sensitivity: True Positive Rate, Recall, Hit Rate, Power}{}
+#'   \item{Specificity: True Negative Rate}{}
+#'   \item{Positive Predictive Value: Precision}{}
+#'   \item{False Negative Rate: Miss Rate, Type II error rate, β}{}
+#'   \item{False Positive Rate: Fallout, Type I error rate, α}{}
+#' }
+
 #'
-#' @return A tibble with (at present) columns for sensitivity, specificity, positive
-#'   predictive value (PPV), negative predictive value (NPV), F1 score (aka Dice
-#'   coefficient), detection rate, detection prevalence, balanced accuracy.  For
+#' @return A tibble with (at present) columns for sensitivity, specificity, PPV, NPV, F1 score, detection rate, detection prevalence, balanced accuracy, FDR, FOR, FPR, FNR.  For
 #'   > 2 classes, these statistics are provided for each class.
 #'
 #' @references Kuhn, M. (2008), "Building predictive models in R using the
@@ -57,13 +80,15 @@
 #' @export
 calc_stats <- function(tabble, prevalence = NULL, positive, ...) {
   # checks
-  if (!all.equal(nrow(tabble), ncol(tabble)))
+  # using original all.equal checks will fail
+  if (!identical(nrow(tabble), ncol(tabble)))
     stop("the table must have nrow = ncol")
 
-  if (!all.equal(rownames(tabble), colnames(tabble)))
+  # this doesn't really check order
+  if (!identical(rownames(tabble), colnames(tabble)))
     stop("the table must the same groups in the same order")
 
-  tabble_init = tabble
+  tabble_init <- tabble
 
   # Calculate Sensitivity ---------------------------------------------------
 
@@ -83,23 +108,24 @@ calc_stats <- function(tabble, prevalence = NULL, positive, ...) {
 
     rm(tmp)
   } else {
-    pos = positive
-    neg = rownames(tabble_init)[rownames(tabble_init) != positive]
+    pos <- positive
+    neg <- rownames(tabble_init)[rownames(tabble_init) != positive]
   }
 
   numer <- sum(tabble[pos, pos])
   denom <- sum(tabble[, pos])
-  sens <- ifelse(denom > 0, numer/denom, NA)
+  sens  <- ifelse(denom > 0, numer/denom, NA)
 
   detection_rate = sum(tabble[pos, pos])/sum(tabble)
   detection_prevalence = sum(tabble[pos, ])/sum(tabble)
+
 
 
   # Calculate Specificity ---------------------------------------------------
 
   numer <- sum(tabble[neg, neg])
   denom <- sum(tabble[, neg])
-  spec <- ifelse(denom > 0, numer/denom, NA)
+  spec  <- ifelse(denom > 0, numer/denom, NA)
 
 
   # Calculate Prevalence ----------------------------------------------------
@@ -116,18 +142,18 @@ calc_stats <- function(tabble, prevalence = NULL, positive, ...) {
 
   # Calculate PPV/NPV -------------------------------------------------------
 
-  ppv =
+  ppv <-
     (sens * prevalence) /
     ((sens * prevalence) + ((1 - spec) *(1 - prevalence)))
 
-  npv =
+  npv <-
     (spec * (1 - prevalence)) /
     (((1 - sens) * prevalence) + ((spec) * (1 - prevalence)))
 
 
   # Calculate F1 ------------------------------------------------------------
 
-  f1 = 2/(1/sens + 1/ppv)
+  f1 <- 2/(1/sens + 1/ppv)
 
 
   # Return result -----------------------------------------------------------
@@ -141,6 +167,10 @@ calc_stats <- function(tabble, prevalence = NULL, positive, ...) {
     `Prevalence` = prev,
     `Detection Rate` = detection_rate,
     `Detection Prevalence` = detection_prevalence,
-    `Balanced Accuracy` = (sens + spec)/2
+    `Balanced Accuracy` = (sens + spec)/2,
+    `FDR` = 1 - ppv,
+    `FOR`  = 1 - npv,
+    `FPR/Fallout`  = 1 - spec,
+    `FNR`  = 1 - sens,
   )
 }

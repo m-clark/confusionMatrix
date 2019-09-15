@@ -16,7 +16,7 @@ A tibble with the corresponding statistics
 Calculates accuracy and related metrics.
 }
 \details{
-Used within confusion_matrix to calculate accuaracy, lower and upper
+Used within confusion_matrix to calculate accuracy, lower and upper
   bounds, the guessing rate and p-value of the accuracy vs. the guessing
   rate. Not really meant to be called by the user.
 }
@@ -25,4 +25,7 @@ p = sample(letters[1:4], 250, replace = TRUE, prob = 1:4)
 o = sample(letters[1:4], 250, replace = TRUE, prob = 1:4)
 calc_accuracy(table(p, o))
 
+}
+\seealso{
+\code{\link{binom.test}}
 }

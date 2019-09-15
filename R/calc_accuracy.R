@@ -1,8 +1,27 @@
+#' Calculate Accuracy
+#'
+#' @description Calculates accuracy and related metrics.
+#'
+#' @param tabble A frequency table created with \code{\link{table}}
+#' @details Used within confusion_matrix to calculate accuaracy, lower and upper
+#'   bounds, the guessing rate and p-value of the accuracy vs. the guessing
+#'   rate. Not really meant to be called by the user.
+#'
+#' @return A tibble with the corresponding statistics
+#'
+#' @examples
+#' p = sample(letters[1:4], 250, replace = TRUE, prob = 1:4)
+#' o = sample(letters[1:4], 250, replace = TRUE, prob = 1:4)
+#' calc_accuracy(table(p, o))
+#'
+#' @importFrom stats binom.test
+#'
+#' @export
 calc_accuracy <- function(tabble) {
 
   acc = sum(diag(tabble))/sum(tabble)
 
-  acc_ci <- try(binom.test(sum(diag(tabble)), sum(tabble))$conf.int, silent = TRUE)
+  acc_ci <- try(stats::binom.test(sum(diag(tabble)), sum(tabble))$conf.int, silent = TRUE)
   if(inherits(acc_ci, "try-error"))
     acc_ci <- rep(NA, 2)
 

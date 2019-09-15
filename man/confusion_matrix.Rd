@@ -2,21 +2,43 @@
 % Please edit documentation in R/confusion_matrix.R
 \name{confusion_matrix}
 \alias{confusion_matrix}
-\title{Title}
+\title{Calculate various statistics from a confusion matrix}
 \usage{
 confusion_matrix(prediction, observed, return_table = FALSE,
   dnn = c("Predicted", "Observed"), positive = NULL,
-  prevalence = NULL, verbose = FALSE, ...)
+  prevalence = NULL, ...)
 }
 \arguments{
-\item{...}{}
+\item{prediction}{A vector of predictions}
+
+\item{observed}{A vector of observed values}
+
+\item{return_table}{Logical. Whether to return the table of \code{prediction}
+vs. \code{observed.} Default is \code{FALSE}.}
+
+\item{dnn}{The row and column headers for the table returned by \code{return_table}.}
+
+\item{positive}{The positive class. Default is \code{NULL}.}
+
+\item{prevalence}{Prevalance rate.  Default is \code{NULL}.}
+
+\item{...}{Other parameters, not currently used.}
 }
 \value{
-
+A (list of) tibble(s) with the associated statistics and possibly the frequency table.
 }
 \description{
-Title
+Given a vector of predictions and observed values, calculate
+  numerous statistics of interest.
 }
 \examples{
+p = c(0,1,1,0)
+o = c(0,1,1,1)
+out = confusion_matrix(p, o, return_table = TRUE)
+
+set.seed(1234)
+p = sample(letters[1:4], 250, replace = TRUE, prob = 1:4)
+o = sample(letters[1:4], 250, replace = TRUE, prob = 1:4)
+out = confusion_matrix(p, o, return_table = TRUE)
 
 }

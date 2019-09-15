@@ -7,22 +7,29 @@
 calc_agreement(tabble, match.names = FALSE)
 }
 \arguments{
-\item{tabble}{A 2-dimensional contingency tabblele.}
+\item{tabble}{A 2-dimensional contingency table created with \code{\link{table}}.}
 
 \item{match.names}{Flag whether row and columns should be matched by name.}
 }
+\value{
+A list with components:
+\item{diag}{Percentage of data points in the main diagonal of \code{tabble}.}
+\item{kappa}{\code{diag} corrected for agreement by chance.}
+\item{rand}{Rand index.}
+\item{crand}{Rand index corrected for agreement by chance.}
+}
 \description{
 Computes several coefficients of agreement between the columns
-  and rows of a 2-way contingency tabblele.
+  and rows of a 2-way contingency table.
 }
 \details{
 Suppose we want to compare two classifications summarized by the
-  ontingency tabblele \eqn{T=[t_{ij}]} where \eqn{i,j=1,\ldots,K} and
+  ontingency table \eqn{T=[t_{ij}]} where \eqn{i,j=1,\ldots,K} and
   \eqn{t_{ij}} denotes the number of data points which are in class \eqn{i}
   in the first partition and in class \eqn{j} in the second partition. If
   both classifications use the same labels, then obviously the two
   classification agree completely if only elements in the main diagonal of
-  the tabblele are non-zero. On the other hand, large off-diagonal lements
+  the table are non-zero. On the other hand, large off-diagonal lements
   correspond to smaller agreement between the two classifications. If
   \code{match.names} is \code{TRUE}, the class labels as given by the row and
   column names are matched, i.e. only columns and rows with the same dimnames
@@ -47,8 +54,8 @@ Suppose we want to compare two classifications summarized by the
  ## no class correlations: both kappa and crand almost zero
  g1 <- sample(1:5, size=1000, replace=TRUE)
  g2 <- sample(1:5, size=1000, replace=TRUE)
- tabble <- tabblele(g1, g2)
- classAgreement(tabble)
+ tabble <- table(g1, g2)
+ calc_agreement(tabble)
 
  ## let pairs (g1=1,g2=1) and (g1=3,g2=3) agree better
  k <- sample(1:1000, size=200)
@@ -59,10 +66,9 @@ Suppose we want to compare two classifications summarized by the
  g1[k] <- 3
  g2[k] <- 3
 
- tabble <- tabblele(g1, g2)
+ tabble <- table(g1, g2)
  ## both kappa and crand should be significantly larger than before
- classAgreement(tabble)
-
+ calc_agreement(tabble)
 
 }
 \references{

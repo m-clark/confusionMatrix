@@ -14,5 +14,7 @@ BugReports: https://github.com/m-clark/confusionMatrix/issues
 Year: 2019
 Depends:
   R (>= 3.4.0)
+Imports:
+  dplyr
 Suggests:
-    testthat
+    testthat (>= 2.1.0)

@@ -1,17 +1,27 @@
-#' Title
+#' Calculate various statistics from a confusion matrix
 #'
-#' @param prediction
-#' @param observed
-#' @param return_table
-#' @param verbose
-#' @param dnn
-#' @param positive
-#' @param prevalence
-#' @param ...
+#' @description Given a vector of predictions and observed values, calculate
+#'   numerous statistics of interest.
+#' @param prediction A vector of predictions
+#' @param observed A vector of observed values
+#' @param return_table Logical. Whether to return the table of \code{prediction}
+#'   vs. \code{observed.} Default is \code{FALSE}.
+#' @param dnn The row and column headers for the table returned by \code{return_table}.
+#' @param positive The positive class. Default is \code{NULL}.
+#' @param prevalence Prevalance rate.  Default is \code{NULL}.
+#' @param ... Other parameters, not currently used.
 #'
-#' @return
-#'
+#' @return A (list of) tibble(s) with the associated statistics and possibly the frequency table.
+#' @importFrom dplyr mutate everything %>%
 #' @examples
+#' p = c(0,1,1,0)
+#' o = c(0,1,1,1)
+#' out = confusion_matrix(p, o, return_table = TRUE)
+#'
+#' set.seed(1234)
+#' p = sample(letters[1:4], 250, replace = TRUE, prob = 1:4)
+#' o = sample(letters[1:4], 250, replace = TRUE, prob = 1:4)
+#' out = confusion_matrix(p, o, return_table = TRUE)
 #'
 #' @export
 confusion_matrix <- function(
@@ -21,7 +31,6 @@ confusion_matrix <- function(
   dnn = c('Predicted', 'Observed'),
   positive = NULL,
   prevalence = NULL,
-  verbose = FALSE,
   ...
 ) {
   class_pred = class(prediction)
@@ -66,7 +75,7 @@ confusion_matrix <- function(
     \nRefactoring prediction to match. Some statistics may not be available.")
 
     init <- init %>%
-      mutate(prediction = factor(prediction, levels = levels(observed)))
+      dplyr::mutate(prediction = factor(prediction, levels = levels(observed)))
   }
 
   prediction = init$prediction
@@ -115,19 +124,14 @@ confusion_matrix <- function(
     result_statistics = result_statistics %>%
       dplyr::mutate(Class = classLevels) %>%
       dplyr::select(Class, everything())
-    #   for (i in classLevels) calc_stats(  # for testing, delete
-    #   conf_mat,
-    #   prevalence = prevalence,
-    #   positive = i
-    # )
+
     result = list(
       `Accuracy and Agreement` = acc_agg,
       Other = result_statistics
     )
-
   }
 
-
   if (return_table) result$`Frequency Table` = conf_mat
+
   result
 }

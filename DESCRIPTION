@@ -5,7 +5,7 @@ Version: 0.1.0
 Authors@R: person("Michael", "Clark", role = c("aut", "cre"), email = "micl@umich.edu")
 Maintainer: Michael Clark <micl@umich.edu>
 Description: A hopefully straightforward re-implementation of the function from the `caret` package to simplify input and return 'tidy' results.
-License: CC0
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.1.1

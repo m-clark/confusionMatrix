@@ -1,27 +1,40 @@
 calc_accuracy <- function(tabble) {
-  sum(diag(tabble))/sum(tabble)
-}
+
+  acc = sum(diag(tabble))/sum(tabble)
+
+  acc_ci <- try(binom.test(sum(diag(tabble)), sum(tabble))$conf.int, silent = TRUE)
+  if(inherits(acc_ci, "try-error"))
+    acc_ci <- rep(NA, 2)
 
 
-propCI <- function(tabble) {
-  res <- try(binom.test(sum(diag(tabble)), sum(tabble))$conf.int, silent = TRUE)
-  if(inherits(res, "try-error"))
-    res <- rep(NA, 2)
-  res
-}
-
-propTest <- function(tabble){
-  res <- try(
+  acc_p <- try(
     binom.test(
       sum(diag(tabble)),
       sum(tabble),
-      p = matabble(colSums(tabble)/sum(tabble)),
+      p = max(colSums(tabble)/sum(tabble)),
       alternative = "greater"
     ),
     silent = TRUE)
-  res <- if(inherits(res, "try-error"))
-    c("null.value.probability of success" = NA, p.value = NA)
+
+
+  if (inherits(acc_p, "try-error"))
+      acc_p <- c("null.value.probability of success" = NA, p.value = NA)
   else
-    res <- unlist(res[c("null.value", "p.value")])
-  res
+    acc_p <- unlist(acc_p[c("null.value", "p.value")])
+
+  tibble(
+    Accuracy = acc,
+    `Accuracy LL` = acc_ci[1],
+    `Accuracy UL` = acc_ci[2],
+    `Accuracy Guessing` = acc_p[1],
+    `Accuracy P-value` = acc_p[2]
+  )
 }
+
+
+# propCI <- function(tabble) {
+# }
+#
+# propTest <- function(tabble){
+#
+# }

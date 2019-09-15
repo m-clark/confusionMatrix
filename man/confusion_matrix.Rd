@@ -2,18 +2,11 @@
 % Please edit documentation in R/confusion_matrix.R
 \name{confusion_matrix}
 \alias{confusion_matrix}
-\alias{confusion_matrix.default}
-\alias{confusion_matrix.table}
 \title{Title}
 \usage{
 confusion_matrix(prediction, observed, return_table = FALSE,
-  verbose = FALSE, ...)
-
-\method{confusion_matrix}{default}(data, reference, positive = NULL,
-  dnn = c("Prediction", "Reference"), prevalence = NULL,
-  mode = "sens_spec", ...)
-
-confusion_matrix.table(data, positive = NULL, prevalence = NULL, ...)
+  dnn = c("Predicted", "Observed"), positive = NULL,
+  prevalence = NULL, verbose = FALSE, ...)
 }
 \arguments{
 \item{...}{}

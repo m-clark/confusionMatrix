@@ -99,10 +99,10 @@ calc_agreement <- function(tabble, match.names = FALSE) {
     ((nis2 + njs2) / 2 - (nis2 * njs2) / n2)
 
 
-  tibble::tibble(
-    accuracy = p0,
-    kappa = (p0 - pc) / (1 - pc),
-    rand = rand,
-    crand = crand
-    )
+  dplyr::tibble(
+    # accuracy = p0,
+    Kappa = (p0 - pc) / (1 - pc),
+    # rand = rand,
+    `Corrected Rand` = crand
+  )
 }

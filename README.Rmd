@@ -4,21 +4,26 @@ output:
 encoding: 'UTF-8'
 ---
 
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  fig.path = "man/figures/",
+  comment = NA
+)
+```
+
 <!-- badges: start -->
   [![Travis build status](https://travis-ci.org/m-clark/confusionMatrix.svg?branch=master)](https://travis-ci.org/m-clark/confusionMatrix)
-
+  [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/m-clark/confusionMatrix?branch=master&svg=true)](https://ci.appveyor.com/project/m-clark/confusionMatrix)
   [![Codecov test coverage](https://codecov.io/gh/m-clark/confusionMatrix/branch/master/graph/badge.svg)](https://codecov.io/gh/m-clark/confusionMatrix?branch=master)
-
-  
-<a href="https://github.com/m-clark/confusionMatrix" alt="Miscellaneous Shenanigans">
-        <img src="https://img.shields.io/badge/Status-Meh-ff5500.svg?colorA=00aaff&longCache=true&style=for-the-badge"  width=20.5%/></a>
-        
+<!-- <a href="https://github.com/m-clark/confusionMatrix" alt="Miscellaneous Shenanigans"> -->
+<!--         <img src="https://img.shields.io/badge/Status-Meh-ff5500.svg?colorA=00aaff&longCache=true&style=for-the-badge"  width=20.5%/></a> -->
  <!-- badges: end -->
 
 <br>
 <br>
 
-A hopefully straightforward re-implementation of the function from the `caret` package to simplify input and return 'tidy' results.  The goal is to provide a wealth of simple summary statistics that can be calculated from a single confusion matrix.
+A hopefully straightforward re-implementation inspired by the `caret` package to simplify input and return 'tidy' results.  The goal is to provide a wealth of simple summary statistics that can be calculated from a single confusion matrix.
 
 
 ```{r demo}

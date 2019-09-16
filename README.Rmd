@@ -16,25 +16,38 @@ knitr::opts_chunk$set(
   [![Travis build status](https://travis-ci.org/m-clark/confusionMatrix.svg?branch=master)](https://travis-ci.org/m-clark/confusionMatrix)
   [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/m-clark/confusionMatrix?branch=master&svg=true)](https://ci.appveyor.com/project/m-clark/confusionMatrix)
   [![Codecov test coverage](https://codecov.io/gh/m-clark/confusionMatrix/branch/master/graph/badge.svg)](https://codecov.io/gh/m-clark/confusionMatrix?branch=master)
+  [![Lifecycle: maturing](https://img.shields.io/badge/lifecycle-experimental-blue.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 <!-- <a href="https://github.com/m-clark/confusionMatrix" alt="Miscellaneous Shenanigans"> -->
 <!--         <img src="https://img.shields.io/badge/Status-Meh-ff5500.svg?colorA=00aaff&longCache=true&style=for-the-badge"  width=20.5%/></a> -->
+
  <!-- badges: end -->
+ 
+
+# confusionMatrix
 
 <br>
-<br>
 
-A hopefully straightforward re-implementation inspired by the `caret` package to simplify input and return 'tidy' results.  The goal is to provide a wealth of simple summary statistics that can be calculated from a single confusion matrix.
+A hopefully straightforward re-implementation inspired by the `caret` package to
+simplify input and return 'tidy' results with as few dependencies as possible.
+The goal is to provide a wealth of simple(!) summary statistics that can be
+calculated from a single confusion matrix.
 
 
 ```{r demo}
 library(confusionMatrix)
+
 p = sample(letters[1:4], 250, replace = T, prob = 1:4)
 o = sample(letters[1:4], 250, replace = T, prob = 1:4)
 
-confusion_matrix(
+result = confusion_matrix(
   prediction = p,
   observed = o,
   return_table = TRUE
 )
+
+result
+
+dplyr::glimpse(result$`Accuracy and Agreement`)
+dplyr::glimpse(result$Other)
 ```
 

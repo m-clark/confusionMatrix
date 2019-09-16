@@ -56,3 +56,19 @@ test_that("confusion_matrix can handle different level pred/obs", {
 
   expect_identical(ca_relevel$`Frequency Table`, ca$`Frequency Table`)
 })
+
+
+test_that("confusion_matrix can handle logical/numeric mix", {
+  o_logical = c(FALSE, TRUE, TRUE, TRUE)
+  expect_is(confusion_matrix(p_simple, o_logical), 'list')
+})
+
+# test_that("confusion_matrix can handle logical/character mix", {
+#   o_logical = c(FALSE, TRUE, TRUE, TRUE)
+#   p_char = c('a', 'a', 'b', 'b')
+#   expect_is(confusion_matrix(p_char, o_logical), 'list')
+# })
+
+# TODO: Add error for char/fac vs. numeric/logical (better) or add fancy relabeling of predictor (asking for trouble)
+
+

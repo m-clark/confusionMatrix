@@ -51,3 +51,10 @@ dplyr::glimpse(result$`Accuracy and Agreement`)
 dplyr::glimpse(result$Other)
 ```
 
+### Installation
+
+To install from GitHub the <span class="pack">devtools</span> package is required.
+
+```{r eval=FALSE}
+devtools::install_github('m-clark/confusionMatrix')
+```

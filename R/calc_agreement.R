@@ -28,7 +28,7 @@
 #'   different clusters by both partitions. Conversely, let \eqn{D}  denote the
 #'   number of all pairs of data points that are put into one cluster in one
 #'   partition, but into different clusters by the other partition.  Hence, the
-#'   partitions disagree for all pairs \eqn{D} and gree for all pairs \eqn{A}.
+#'   partitions disagree for all pairs \eqn{D} and agree for all pairs \eqn{A}.
 #'   We can measure the agreement by the Rand index \eqn{A/(A+D)} which is
 #'   invariant with respect to permutations of the columns or rows of \eqn{T}.
 #'

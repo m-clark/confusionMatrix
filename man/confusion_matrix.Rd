@@ -25,26 +25,37 @@ vs. \code{observed.} Default is \code{FALSE}.}
 \item{...}{Other parameters, not currently used.}
 }
 \value{
-A (list of) tibble(s) with the associated statistics and possibly the frequency table.
+A (list of) tibble(s) with the associated statistics and possibly the
+  frequency table.
 }
 \description{
 Given a vector of predictions and observed values, calculate
   numerous statistics of interest.
 }
 \details{
-This returns accuracy, agreement, and other statistics. See the functions below to find out more.
+This returns accuracy, agreement, and other statistics. See the
+  functions below to find out more. Originally inspired and based on the
+  \code{confusionMatrix} function from the \code{caret} package.
 }
 \examples{
+library(confusionMatrix)
+
 p = c(0,1,1,0)
 o = c(0,1,1,1)
-out = confusion_matrix(p, o, return_table = TRUE)
 
-set.seed(1234)
+confusion_matrix(p, o, return_table = TRUE)
+
 p = sample(letters[1:4], 250, replace = TRUE, prob = 1:4)
 o = sample(letters[1:4], 250, replace = TRUE, prob = 1:4)
-out = confusion_matrix(p, o, return_table = TRUE)
+
+confusion_matrix(p, o, return_table = TRUE)
 
 }
+\references{
+Kuhn, M., & Johnson, K. (2013). Applied predictive modeling. New
+  York: Springer.
+}
 \seealso{
-\code{\link{calc_accuracy}} \code{\link{calc_agreement}} \code{\link{calc_stats}}
+\code{\link[caret]{confusionMatrix}}  \code{\link{calc_accuracy}}
+  \code{\link{calc_agreement}} \code{\link{calc_stats}}
 }

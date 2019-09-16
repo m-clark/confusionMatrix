@@ -11,21 +11,33 @@
 #' @param prevalence Prevalance rate.  Default is \code{NULL}.
 #' @param ... Other parameters, not currently used.
 #'
-#' @details This returns accuracy, agreement, and other statistics. See the functions below to find out more.
+#' @details This returns accuracy, agreement, and other statistics. See the
+#'   functions below to find out more. Originally inspired and based on the
+#'   \code{confusionMatrix} function from the \code{caret} package.
 #'
-#' @seealso \code{\link{calc_accuracy}} \code{\link{calc_agreement}} \code{\link{calc_stats}}
+#' @seealso \code{\link[caret]{confusionMatrix}}  \code{\link{calc_accuracy}}
+#'   \code{\link{calc_agreement}} \code{\link{calc_stats}}
 #'
-#' @return A (list of) tibble(s) with the associated statistics and possibly the frequency table.
+#' @return A (list of) tibble(s) with the associated statistics and possibly the
+#'   frequency table.
+#'
+#' @references Kuhn, M., & Johnson, K. (2013). Applied predictive modeling. New
+#'   York: Springer.
+#'
 #' @importFrom dplyr mutate everything %>%
+#'
 #' @examples
+#' library(confusionMatrix)
+#'
 #' p = c(0,1,1,0)
 #' o = c(0,1,1,1)
-#' out = confusion_matrix(p, o, return_table = TRUE)
 #'
-#' set.seed(1234)
+#' confusion_matrix(p, o, return_table = TRUE)
+#'
 #' p = sample(letters[1:4], 250, replace = TRUE, prob = 1:4)
 #' o = sample(letters[1:4], 250, replace = TRUE, prob = 1:4)
-#' out = confusion_matrix(p, o, return_table = TRUE)
+#'
+#' confusion_matrix(p, o, return_table = TRUE)
 #'
 #' @export
 confusion_matrix <- function(
@@ -48,35 +60,14 @@ confusion_matrix <- function(
     dplyr::mutate_if(is.logical, as.numeric) %>%
     dplyr::mutate_all(as.factor)
 
-
-  # if (!is.factor(prediction) | !is.factor(observed)) {
-  #   stop("`prediction` and `observed` should be factors with the same levels.",
-  #        call. = FALSE)
-  # }
-
   if (!is.character(positive) & !is.null(positive))
     stop("positive argument must be character")
 
-  # if (length(levels(prediction)) > length(levels(observed)))
-  #   stop("the prediction cannot have more levels than the observed")
-  #
-  # if (!any(levels(prediction) %in% levels(observed)))
-  #   stop("The prediction must contain some levels that overlap the observed.")
-
-
-  # if(!all(levels(prediction) %in% levels(observed))){
-  #   badLevel <- levels(prediction)[!levels(prediction) %in% levels(observed)]
-  #   if(sum(table(prediction)[badLevel]) > 0){
-  #     stop("The prediction contains levels not found in the prediction.")
-  #   } else{
-  #     warning("The prediction contains levels not found in the prediction, but they are empty and will be dropped.")
-  #     prediction <- factor(as.character(prediction))
-  #   }
-  # }
-
-  if(any(levels(init$observed) != levels(init$prediction))) {
-    warning("Levels are not in the same order for observed and prediction.
-    \nRefactoring prediction to match. Some statistics may not be available.")
+  if (any(levels(init$observed) != levels(init$prediction))) {
+    warning(
+      "Levels are not in the same order for observed and prediction.
+    \nRefactoring prediction to match. Some statistics may not be available."
+    )
 
     init <- init %>%
       dplyr::mutate(prediction = factor(prediction, levels = levels(observed)))

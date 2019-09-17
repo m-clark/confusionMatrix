@@ -16,7 +16,8 @@ confusion_matrix(prediction, observed, return_table = FALSE,
 \item{return_table}{Logical. Whether to return the table of \code{prediction}
 vs. \code{observed.} Default is \code{FALSE}.}
 
-\item{dnn}{The row and column headers for the table returned by \code{return_table}.}
+\item{dnn}{The row and column headers for the table returned by
+\code{return_table}.}
 
 \item{positive}{The positive class. Default is \code{NULL}.}
 
@@ -25,8 +26,8 @@ vs. \code{observed.} Default is \code{FALSE}.}
 \item{...}{Other parameters, not currently used.}
 }
 \value{
-A (list of) tibble(s) with the associated statistics and possibly the
-  frequency table.
+A list of tibble(s) with the associated statistics and possibly the
+  frequency table as list column of the first element.
 }
 \description{
 Given a vector of predictions and observed values, calculate

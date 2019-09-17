@@ -39,10 +39,10 @@ test_that("confusion_matrix errors if only one observed class", {
 
 
 test_that("confusion_matrix returns table", {
-  expect_is(
-    confusion_matrix(p_simple, o_simple, return_table = TRUE)$`Frequency Table`,
-    'table'
-    )
+  tab = confusion_matrix(p_simple, o_simple, return_table = TRUE)
+  tab = tab$`Accuracy and Agreement`$`Frequency Table`
+
+  expect_is(tab[[1]], 'table')
 })
 
 

@@ -6,7 +6,8 @@
 #' @param observed A vector of observed values
 #' @param return_table Logical. Whether to return the table of \code{prediction}
 #'   vs. \code{observed.} Default is \code{FALSE}.
-#' @param dnn The row and column headers for the table returned by \code{return_table}.
+#' @param dnn The row and column headers for the table returned by
+#'   \code{return_table}.
 #' @param positive The positive class. Default is \code{NULL}.
 #' @param prevalence Prevalance rate.  Default is \code{NULL}.
 #' @param ... Other parameters, not currently used.
@@ -18,8 +19,8 @@
 #' @seealso \code{\link[caret]{confusionMatrix}}  \code{\link{calc_accuracy}}
 #'   \code{\link{calc_agreement}} \code{\link{calc_stats}}
 #'
-#' @return A (list of) tibble(s) with the associated statistics and possibly the
-#'   frequency table.
+#' @return A list of tibble(s) with the associated statistics and possibly the
+#'   frequency table as list column of the first element.
 #'
 #' @references Kuhn, M., & Johnson, K. (2013). Applied predictive modeling. New
 #'   York: Springer.
@@ -49,6 +50,9 @@ confusion_matrix <- function(
   prevalence = NULL,
   ...
 ) {
+
+  # Initial Checks ----------------------------------------------------------
+
   class_pred = class(prediction)
   class_obs = class(observed)
 
@@ -65,7 +69,7 @@ confusion_matrix <- function(
 
   if (any(levels(init$observed) != levels(init$prediction))) {
     warning(
-      "Levels are not in the same order for observed and prediction.
+      "Levels are not the same for observed and prediction.
     \nRefactoring prediction to match. Some statistics may not be available."
     )
 
@@ -87,10 +91,12 @@ confusion_matrix <- function(
   if(numLevels == 2 & is.null(positive))  positive <- levels(observed)[1]
 
   # create confusion matrix
+
   conf_mat = table(prediction, observed, dnn = dnn)
 
 
   # Calculate stats ---------------------------------------------------------
+
   result_accuracy   = calc_accuracy(conf_mat)
   result_agreement  = calc_agreement(conf_mat)
   acc_agg = dplyr::bind_cols(
@@ -126,7 +132,9 @@ confusion_matrix <- function(
     )
   }
 
-  if (return_table) result$`Frequency Table` = conf_mat
+  # if (return_table) result$`Frequency Table` = conf_mat
+  if (return_table)
+    result$`Accuracy and Agreement`$`Frequency Table` <- list(conf_mat)
 
   result
 }

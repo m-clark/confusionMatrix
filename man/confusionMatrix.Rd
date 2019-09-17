@@ -6,13 +6,13 @@
 \alias{confusionMatrix-package}
 \title{confusionMatrix: Confusion Matrix}
 \description{
-The goal of this package is primarily to provide a very easy
+The goal of this package is primarily to provide an easy
   way to provide confusion table metrics in a tidy fashion.  The inspiration
-  and a good chunk of the code borrows heavily from Max Kuhn's caret package
-  and associated function \code{confusionMatrix}.  Here, practically all
-  dependencies have been removed outside of dplyr, and results return tibbles
-  making for easier document presentation, as well as the ability to peel off
-  the statistics desired.
+  and a good chunk of the code borrows heavily from Max Kuhn's \code{caret}
+  package and associated function \code{confusionMatrix}.  Here, practically
+  all dependencies have been removed outside of dplyr, and results return
+  tibbles making for easier document presentation, as well as the ability to
+  peel off the statistics desired.
 }
 \seealso{
 Useful links:

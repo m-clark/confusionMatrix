@@ -43,7 +43,7 @@ calc_accuracy <- function(tabble) {
     silent = TRUE)
 
   if (inherits(acc_p, "try-error"))
-      acc_p <- c("null.value.probability of success" = NA, p.value = NA)
+    acc_p <- c("null.value.probability of success" = NA, p.value = NA)
   else
     acc_p <- unlist(acc_p[c("null.value", "p.value")])
 

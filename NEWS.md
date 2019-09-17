@@ -1,3 +1,5 @@
+# confusionMatrix (development version)
+
 # confusionMatrix 0.2.0
 
 * Core functionality, documentation and tests.

@@ -8,7 +8,8 @@
 #'   vs. \code{observed.} Default is \code{FALSE}.
 #' @param dnn The row and column headers for the table returned by
 #'   \code{return_table}.
-#' @param positive The positive class. Default is \code{NULL}.
+#' @param positive The positive class for a 2-class setting. Default is
+#'   \code{NULL}, which will result in using the first level of \code{observed}.
 #' @param prevalence Prevalance rate.  Default is \code{NULL}.
 #' @param ... Other parameters, not currently used.
 #'
@@ -86,7 +87,10 @@ confusion_matrix <- function(
   numLevels <- length(classLevels)
 
   if(numLevels < 2)
-    stop("there must be at least 2 factors levels in the observed")
+    stop("There must be at least 2 factors levels in the observed")
+
+  if(!is.null(positive) && !positive %in% classLevels)
+    stop("Positive is not among the class levels of the observed")
 
   if(numLevels == 2 & is.null(positive))  positive <- levels(observed)[1]
 
@@ -100,7 +104,6 @@ confusion_matrix <- function(
   result_accuracy   = calc_accuracy(conf_mat)
   result_agreement  = calc_agreement(conf_mat)
   acc_agg = dplyr::bind_cols(
-    # dplyr::tibble(`Positive Class` = positive),
     result_accuracy,
     result_agreement
   )
@@ -111,6 +114,17 @@ confusion_matrix <- function(
       prevalence = prevalence,
       positive = positive
     )
+
+    result_statistics = result_statistics %>%
+      dplyr::mutate(
+        N = sum(conf_mat),
+        Positive = positive,
+        `N Positive` = sum(conf_mat[, positive]),
+        `N Negative` = N-`N Positive`)
+
+    result_statistics = result_statistics %>%
+      dplyr::select(Positive, N, `N Positive`, `N Negative`, everything())
+
     result = list(
       `Accuracy and Agreement` = acc_agg,
       Other = result_statistics
@@ -121,10 +135,21 @@ confusion_matrix <- function(
         prevalence = prevalence,
         positive = i
       ))
-    result_statistics = do.call(rbind, result_statistics)
+
+    result_statistics = dplyr::bind_rows(result_statistics) %>%
+      mutate(N = colSums(conf_mat))
+
+    # add averages
+    avg = data.frame(t(colMeans(result_statistics)))
+
+    colnames(avg) = colnames(result_statistics)
+
+    result_statistics <- result_statistics %>%
+      dplyr::bind_rows(avg)
+
     result_statistics = result_statistics %>%
-      dplyr::mutate(Class = classLevels) %>%
-      dplyr::select(Class, everything())
+      dplyr::mutate(Class = c(classLevels, 'Average')) %>%
+      dplyr::select(Class, N, everything())
 
     result = list(
       `Accuracy and Agreement` = acc_agg,

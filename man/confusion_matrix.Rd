@@ -19,7 +19,8 @@ vs. \code{observed.} Default is \code{FALSE}.}
 \item{dnn}{The row and column headers for the table returned by
 \code{return_table}.}
 
-\item{positive}{The positive class. Default is \code{NULL}.}
+\item{positive}{The positive class for a 2-class setting. Default is
+\code{NULL}, which will result in using the first level of \code{observed}.}
 
 \item{prevalence}{Prevalance rate.  Default is \code{NULL}.}
 

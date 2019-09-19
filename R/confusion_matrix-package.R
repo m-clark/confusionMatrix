@@ -4,7 +4,7 @@
 #'   way to obtain common confusion table metrics in a tidy fashion.  The
 #'   inspiration and a good chunk of the code borrows heavily from Max Kuhn's
 #'   \code{caret} package and associated function \code{confusionMatrix}, and
-#'   his current work being done via the \code{yardstick} package.  Here,
+#'   the continuation of those efforts in the \code{yardstick} package.  Here,
 #'   practically all dependencies have been removed except for dplyr, and
 #'   results are tibbles making for easier document presentation, as well as the
 #'   ability to peel off the statistics desired.
@@ -17,23 +17,37 @@
 #'   Statistics provided include:
 #'
 #'   Accuracy and Agreement
+#'
 #'     - Accuracy, bounds, and related
+#'
 #'     - Cohen's Kappa
+#'
 #'     - Corrected Rand
 #'
 #'   Other Statistics:
+#'
 #'     - Sensitivity
+#'
 #'     - Specificity
+#'
 #'     - Prevalence
+#'
 #'     - Positive Predictive Value
+#'
 #'     - Negative Predictive Value
+#'
 #'     - Detection prevalence
+#'
 #'     - Balanced Accuracy
+#'
 #'     - F1
 #'
 #'   Measures of Association:
+#'
 #'     - Phi
+#'
 #'     - Yule's
+#'
 #'     - Peirce's science of the method (Youden's J)
 #'
 

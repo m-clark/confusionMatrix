@@ -158,7 +158,7 @@ calc_stats <- function(tabble, prevalence = NULL, positive, ...) {
 
   # Return result -----------------------------------------------------------
 
-  dplyr::tibble(
+  result = dplyr::tibble(
     `Sensitivity/Recall/TPR` = sens,
     `Specificity/TNR` = spec,
     `PPV/Precision` = ppv,
@@ -173,4 +173,6 @@ calc_stats <- function(tabble, prevalence = NULL, positive, ...) {
     `FPR/Fallout`  = 1 - spec,
     `FNR`  = 1 - sens,
   )
+
+  result
 }

@@ -156,6 +156,23 @@ calc_stats <- function(tabble, prevalence = NULL, positive, ...) {
   f1 <- 2/(1/sens + 1/ppv)
 
 
+  # Calculate d-prime/AUC ---------------------------------------------------
+
+  p_table = prop.table(tabble)
+  q <- qnorm(p_table/rowSums(p_table))
+
+  d_prime <- q[1, 1] - q[2, 1]
+
+  xmax <- max(4, d_prime + 3)
+  x <- seq(-3, xmax, 0.1) # possibly change to more N/runif?
+  fpx <- pnorm(x - qnorm(spec))
+  vpx <- pnorm(x + qnorm(sens))
+  fpx.diff <- diff(fpx)
+  lower.sum <- sum(fpx.diff * vpx[-1])
+  upper.sum <- sum(fpx.diff * vpx[-length(vpx)])
+  auc <- (lower.sum + upper.sum)/2
+  auc <- ifelse(auc < .5, 1-auc, auc)
+
   # Return result -----------------------------------------------------------
 
   result = dplyr::tibble(
@@ -172,6 +189,8 @@ calc_stats <- function(tabble, prevalence = NULL, positive, ...) {
     `FOR`  = 1 - npv,
     `FPR/Fallout`  = 1 - spec,
     `FNR`  = 1 - sens,
+    `D Prime` = d_prime,
+    `AUC` = auc
   )
 
   result

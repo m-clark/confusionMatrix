@@ -17,7 +17,7 @@ o_multi = sample(letters[1:4], 250, replace = TRUE, prob = 1:4)
 # basic output ------------------------------------------------------------
 
 test_that("confusion_matrix works", {
-  ca = confusion_matrix(p_simple, o_simple)
+  ca = confusion_matrix(p_2class, o_2class)
   expect_is(ca, 'list')
   expect_s3_class(ca[[1]], 'data.frame')
 })
@@ -32,7 +32,7 @@ test_that("confusion_matrix works", {
 # dealing with positive argument ------------------------------------------
 
 test_that("confusion_matrix takes positive argument", {
-  ca = confusion_matrix(p_simple, o_simple, positive = '0')
+  ca = suppressWarnings(confusion_matrix(p_simple, o_simple, positive = '0'))
   expect_identical(ca$Other$`Sensitivity/Recall/TPR`, 1)
 })
 
@@ -50,11 +50,6 @@ test_that("confusion_matrix warns with prediction/observed mismatched levels", {
   expect_warning(confusion_matrix(p, o))
 })
 
-test_that("confusion_matrix errors if only one observed class", {
-  p = c(0, 1, 1, 1)
-  o = c(1, 1, 1, 1)
-  expect_error(suppressWarnings(confusion_matrix(p, o)))
-})
 
 
 
@@ -73,32 +68,31 @@ test_that("confusion_matrix can handle different level pred/obs", {
 
 test_that("confusion_matrix can handle logical/numeric mix", {
   o_logical = c(FALSE, TRUE, TRUE, TRUE)
-  expect_is(confusion_matrix(p_simple, o_logical), 'list')
+  expect_is(suppressWarnings(confusion_matrix(p_simple, o_logical)), 'list')
 })
 
 
 # return table ------------------------------------------------------------
 
 test_that("confusion_matrix returns table", {
-  tab = confusion_matrix(p_simple, o_simple, return_table = TRUE)
+  tab = confusion_matrix(p_2class, o_2class, return_table = TRUE)
   tab = tab$`Accuracy and Agreement`$`Frequency Table`
 
   expect_is(tab[[1]], 'table')
 })
 
 
-# test results ------------------------------------------------------------
+# Will error on incorrect input -------------------------------------------
 
-test_that("confusion_matrix returns correct results", {
-  ns = colSums(table(p_2class, o_2class))
-  tab = confusion_matrix(p_2class, o_2class, return_table = TRUE)
-
-  # Ns
-  expect_equal(tab$Other$N, sum(ns))
-  expect_equivalent(tab$Other$`N Positive`, ns[1])
-  expect_equivalent(tab$Other$`N Negative`, ns[2])
+test_that("confusion_matrix errors if only one observed class", {
+  p = c(0, 1, 1, 1)
+  o = c(1, 1, 1, 1)
+  expect_error(suppressWarnings(confusion_matrix(p, o)))
 })
 
+test_that("confusion_matrix errors if positive class doesn't exist", {
+  expect_error(confusion_matrix(p_2class, o_2class, positive = 'C'))
+})
 
 
 # test_that("confusion_matrix can handle logical/character mix", {

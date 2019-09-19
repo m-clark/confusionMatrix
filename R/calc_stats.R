@@ -158,20 +158,38 @@ calc_stats <- function(tabble, prevalence = NULL, positive, ...) {
 
   # Calculate d-prime/AUC ---------------------------------------------------
 
-  p_table = prop.table(tabble)
-  q <- qnorm(p_table/rowSums(p_table))
+  # check for inability to calculate
+  if (any(rowSums(tabble) == 0)) {
+    d_prime = NA
+    auc = NA
+  }
+  else {
+    p_table = prop.table(tabble)
+    p_table = p_table/rowSums(p_table)
 
-  d_prime <- q[1, 1] - q[2, 1]
+    # check if 1/0 and fudge with warning
+    if (any(p_table %in% 1))
+      warning('Encountered infinite values for d_prime,
+    fudge factor introduced to correct.')
 
-  xmax <- max(4, d_prime + 3)
-  x <- seq(-3, xmax, 0.1) # possibly change to more N/runif?
-  fpx <- pnorm(x - qnorm(spec))
-  vpx <- pnorm(x + qnorm(sens))
-  fpx.diff <- diff(fpx)
-  lower.sum <- sum(fpx.diff * vpx[-1])
-  upper.sum <- sum(fpx.diff * vpx[-length(vpx)])
-  auc <- (lower.sum + upper.sum)/2
-  auc <- ifelse(auc < .5, 1-auc, auc)
+    p_table[p_table == 1] = .999999
+    p_table[p_table == 0] = .000001
+
+    q <- qnorm(p_table)
+
+    d_prime <- q[1, 1] - q[2, 1]
+
+    xmax <- max(4, d_prime + 3)
+    x <- seq(-3, xmax, 0.1) # possibly change to more N/runif?
+    fpx <- pnorm(x - qnorm(spec))
+    vpx <- pnorm(x + qnorm(sens))
+    fpx.diff <- diff(fpx)
+    lower.sum <- sum(fpx.diff * vpx[-1])
+    upper.sum <- sum(fpx.diff * vpx[-length(vpx)])
+    auc <- (lower.sum + upper.sum)/2
+    auc <- ifelse(auc < .5, 1-auc, auc)
+  }
+
 
   # Return result -----------------------------------------------------------
 

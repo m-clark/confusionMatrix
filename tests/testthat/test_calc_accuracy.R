@@ -30,3 +30,19 @@ test_that("calc_accuracy is correct", {
 test_that("calc_accuracy can handle unusual situation", {
   expect_s3_class(ca_1, 'data.frame')
 })
+
+
+
+# test ridiculous result -----------------------------------
+
+test_that("calc_accuracy perfectly wrong prediction", {
+  p = c(0, 0, 0, 0, 0, 1, 1, 1, 1, 1)
+  o = c(1, 1, 1, 1, 1, 0, 0, 0, 0, 0)
+  expect_s3_class(suppressWarnings(confusion_matrix(p, o))[[1]], 'data.frame')
+})
+
+test_that("calc_accuracy perfect prediction", {
+  p = c(0, 0, 0, 0, 0, 1, 1, 1, 1, 1)
+  o = p
+  expect_s3_class(suppressWarnings(confusion_matrix(p, o))[[1]], 'data.frame')
+})

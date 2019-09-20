@@ -71,6 +71,7 @@
 #' reduction.," \emph{Genetic Epidemiology}, vol 4, 306.
 #'
 #' @importFrom dplyr tibble
+#' @importFrom stats pnorm qnorm
 #'
 #' @examples
 #' p = sample(letters[1:4], 250, replace = TRUE, prob = 1:4)
@@ -175,14 +176,14 @@ calc_stats <- function(tabble, prevalence = NULL, positive, ...) {
     p_table[p_table == 1] = .999999
     p_table[p_table == 0] = .000001
 
-    q <- qnorm(p_table)
+    q <- stats::qnorm(p_table)
 
     d_prime <- q[1, 1] - q[2, 1]
 
     xmax <- max(4, d_prime + 3)
     x <- seq(-3, xmax, 0.1) # possibly change to more N/runif?
-    fpx <- pnorm(x - qnorm(spec))
-    vpx <- pnorm(x + qnorm(sens))
+    fpx <- stats::pnorm(x - stats::qnorm(spec))
+    vpx <- stats::pnorm(x + stats::qnorm(sens))
     fpx.diff <- diff(fpx)
     lower.sum <- sum(fpx.diff * vpx[-1])
     upper.sum <- sum(fpx.diff * vpx[-length(vpx)])

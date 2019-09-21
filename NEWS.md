@@ -1,3 +1,7 @@
+# confusionMatrix (development version)
+
+* simplify d'
+
 # confusionMatrix 0.2.1
 
 * Add d', auc

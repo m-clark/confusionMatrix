@@ -32,6 +32,7 @@
 #' \deqn{False Positive Rate = 1 - Specificity}
 #' \deqn{False Negative Rate = 1 - Sensitivity}
 #' \deqn{D' = qnorm(Sensitivity) - qnorm(1 - Specificity)}
+#' \deqn{AUC ≈ pnorm(D'/sqrt(2))}
 #'
 #' See the references for discussions of the first five formulas.
 #' Abbreviations:
@@ -166,13 +167,15 @@ calc_stats <- function(tabble, prevalence = NULL, positive, ...) {
     auc = NA
   }
   else {
-    # check if 1/0 and fudge with warning
-    if (any(c(sens, spec) %in% c(0,1))) {
+    d_prime <- qnorm(sens) - qnorm(1-spec)  # primary calculation
+
+    # check if sens/spec 1/0 and fudge with warning
+    if (is.infinite(d_prime)) {
       warning('Encountered infinite values for d_prime,
     fudge factor introduced to correct.')
       sens_ = abs(sens - .000001)
       spec_ = abs(spec - .000001)
-      d_prime <- qnorm(sens_) - qnorm(1-spec_)
+      d_prime <- qnorm(sens_) - qnorm(1 - spec_)
 
       xmax <- max(4, d_prime + 3)
       x <- seq(-3, xmax, 0.05)
@@ -181,8 +184,6 @@ calc_stats <- function(tabble, prevalence = NULL, positive, ...) {
       fpx <- stats::pnorm(x - stats::qnorm(spec_))
     }
     else {
-      d_prime <- qnorm(sens) - qnorm(1-spec)  # primary calculation
-
       xmax <- max(4, d_prime + 3)
       x <- seq(-3, xmax, 0.05)
 
@@ -195,6 +196,7 @@ calc_stats <- function(tabble, prevalence = NULL, positive, ...) {
     upper.sum <- sum(fpx.diff * vpx[-length(vpx)])
     auc <- (lower.sum + upper.sum)/2
     auc <- ifelse(auc < .5, 1-auc, auc)
+    # shortcut auc = pnorm(tab$`D Prime`/sqrt(2))
   }
 
 

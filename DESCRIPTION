@@ -1,7 +1,7 @@
 Package: confusionMatrix
 Type: Package
 Title: Confusion Matrix
-Version: 0.2.1
+Version: 0.2.1.9000
 Authors@R: person("Michael", "Clark", role = c("aut", "cre"), email = "micl@umich.edu")
 Maintainer: Michael Clark <micl@umich.edu>
 Description: A hopefully straightforward re-implementation of the function from the `caret` package to simplify input and return 'tidy' results.

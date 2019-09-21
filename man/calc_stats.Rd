@@ -49,6 +49,7 @@ where \code{beta = 1} for this function.
 \deqn{False Positive Rate = 1 - Specificity}
 \deqn{False Negative Rate = 1 - Sensitivity}
 \deqn{D' = qnorm(Sensitivity) - qnorm(1 - Specificity)}
+\deqn{AUC ≈ pnorm(D'/sqrt(2))}
 
 See the references for discussions of the first five formulas.
 Abbreviations:

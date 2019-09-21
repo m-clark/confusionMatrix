@@ -29,7 +29,7 @@ Used within confusion_matrix to calculate various confusion matrix
 
 Suppose a 2x2 table with notation
 
-\tabular{rcc}{ \tab Reference \tab \cr Predicted \tab Event \tab No Event
+\tabular{rcc}{ \tab Observed \tab \cr Predicted \tab Event \tab No Event
 \cr Event \tab A \tab B \cr No Event \tab C \tab D \cr }
 
 The formulas used here are:
@@ -48,6 +48,7 @@ where \code{beta = 1} for this function.
 \deqn{False Omission Rate = 1 - Negative Predictive Value}
 \deqn{False Positive Rate = 1 - Specificity}
 \deqn{False Negative Rate = 1 - Sensitivity}
+\deqn{D' = qnorm(Sensitivity) - qnorm(1 - Specificity)}
 
 See the references for discussions of the first five formulas.
 Abbreviations:

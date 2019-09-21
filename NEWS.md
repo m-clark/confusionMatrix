@@ -1,4 +1,6 @@
-# confusionMatrix (development version)
+# confusionMatrix 0.2.1
+
+* Add d', auc
 
 # confusionMatrix 0.2.0
 

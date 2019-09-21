@@ -12,7 +12,7 @@
 #'
 #' Suppose a 2x2 table with notation
 #'
-#' \tabular{rcc}{ \tab Reference \tab \cr Predicted \tab Event \tab No Event
+#' \tabular{rcc}{ \tab Observed \tab \cr Predicted \tab Event \tab No Event
 #' \cr Event \tab A \tab B \cr No Event \tab C \tab D \cr }
 #'
 #' The formulas used here are:
@@ -31,6 +31,7 @@
 #' \deqn{False Omission Rate = 1 - Negative Predictive Value}
 #' \deqn{False Positive Rate = 1 - Specificity}
 #' \deqn{False Negative Rate = 1 - Sensitivity}
+#' \deqn{D' = qnorm(Sensitivity) - qnorm(1 - Specificity)}
 #'
 #' See the references for discussions of the first five formulas.
 #' Abbreviations:
@@ -165,25 +166,30 @@ calc_stats <- function(tabble, prevalence = NULL, positive, ...) {
     auc = NA
   }
   else {
-    p_table = prop.table(tabble)
-    p_table = p_table/rowSums(p_table)
-
     # check if 1/0 and fudge with warning
-    if (any(p_table %in% 1))
+    if (any(c(sens, spec) %in% c(0,1))) {
       warning('Encountered infinite values for d_prime,
     fudge factor introduced to correct.')
+      sens_ = abs(sens - .000001)
+      spec_ = abs(spec - .000001)
+      d_prime <- qnorm(sens_) - qnorm(1-spec_)
 
-    p_table[p_table == 1] = .999999
-    p_table[p_table == 0] = .000001
+      xmax <- max(4, d_prime + 3)
+      x <- seq(-3, xmax, 0.05)
 
-    q <- stats::qnorm(p_table)
+      vpx <- stats::pnorm(x + stats::qnorm(sens_))
+      fpx <- stats::pnorm(x - stats::qnorm(spec_))
+    }
+    else {
+      d_prime <- qnorm(sens) - qnorm(1-spec)  # primary calculation
 
-    d_prime <- q[1, 1] - q[2, 1]
+      xmax <- max(4, d_prime + 3)
+      x <- seq(-3, xmax, 0.05)
 
-    xmax <- max(4, d_prime + 3)
-    x <- seq(-3, xmax, 0.1) # possibly change to more N/runif?
-    fpx <- stats::pnorm(x - stats::qnorm(spec))
-    vpx <- stats::pnorm(x + stats::qnorm(sens))
+      vpx <- stats::pnorm(x + stats::qnorm(sens))
+      fpx <- stats::pnorm(x - stats::qnorm(spec))
+    }
+
     fpx.diff <- diff(fpx)
     lower.sum <- sum(fpx.diff * vpx[-1])
     upper.sum <- sum(fpx.diff * vpx[-length(vpx)])

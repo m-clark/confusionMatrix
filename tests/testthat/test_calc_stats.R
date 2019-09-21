@@ -69,12 +69,13 @@ test_that("confusion_matrix returns correct results for descriptives", {
   expect_equivalent(tab$Other$`N Negative`, ns[2])
 })
 
-test_that("confusion_matrix returns correct results for descriptives", {
+test_that("confusion_matrix returns correct results for AUC d prime", {
 
   # predictions from glm see helper file
   tab = calc_stats(table(predict_class, y), positive = '1')
 
-  # Ns
+  # AUCs
   expect_lt(abs(tab$AUC - ys_auc$.estimate), .02)
-  expect_lt(tab$AUC, psych_auc$AUC, 1e-3)
+  expect_lt(abs(tab$AUC - psych_auc$AUC), 1e-3)
+  expect_lt(abs(tab$`D Prime` - psych_auc$d.prime), 1e-3)
 })

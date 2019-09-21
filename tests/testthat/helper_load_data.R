@@ -9,7 +9,7 @@
 # predict_prob = predict(glm(y ~ x, family = binomial), type = 'response')
 #
 # ys_auc = yardstick::roc_auc(data.frame(estimate=predict_class, truth = y, prob=predict_prob), truth, prob)
-# psych_auc = psych::AUC(table(predict_class, y), plot = F)
+# psych_auc = psych::AUC(table(y, predict_class)[2:1,2:1], plot = F) # note order change for psych
 # save(
 #   predict_class,
 #   y,

@@ -9,12 +9,23 @@
 # predict_prob = predict(glm(y ~ x, family = binomial), type = 'response')
 #
 # ys_auc = yardstick::roc_auc(data.frame(estimate=predict_class, truth = y, prob=predict_prob), truth, prob)
+# caret_stats = caret::confusionMatrix(predict_class, y, positive = '1')
 # psych_auc = psych::AUC(table(y, predict_class)[2:1,2:1], plot = F) # note order change for psych
+# psych_kappa_2class = psych::wkappa(table(y, predict_class)[2:1,2:1])
+# psych_phi_2class = psych::phi(table(y, predict_class)[2:1,2:1])
+# psych_yule_2class = psych::Yule(table(y, predict_class)[2:1,2:1])
+# e1071_rand_2class = e1071::classAgreement(table(predict_class, y))
+
 # save(
 #   predict_class,
 #   y,
+#   caret_stats,
 #   ys_auc,
 #   psych_auc,
+#   psych_kappa_2class,
+#   psych_phi_2class,
+#   psych_yule_2class,
+#   e1071_rand_2class,
 #   file = 'tests/testthat/auc.RData'
 # )
 

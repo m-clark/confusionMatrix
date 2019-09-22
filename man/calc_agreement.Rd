@@ -4,12 +4,10 @@
 \alias{calc_agreement}
 \title{Coefficients comparing classification agreement}
 \usage{
-calc_agreement(tabble, match.names = FALSE)
+calc_agreement(tabble)
 }
 \arguments{
 \item{tabble}{A 2-dimensional contingency table created with \code{\link{table}}.}
-
-\item{match.names}{Flag whether row and columns should be matched by name.}
 }
 \value{
 A tibble with:
@@ -80,5 +78,5 @@ Lawrence Hubert and Phipps Arabie. Comparing partitions. Journal of Classificati
 \code{\link[e1071]{matchClasses}}
 }
 \author{
-Friedrich Leisch
+For Rand Friedrich Leisch
 }

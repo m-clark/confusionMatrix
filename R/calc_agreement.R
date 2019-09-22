@@ -6,7 +6,6 @@
 #'   documentation.
 #'
 #' @param tabble A 2-dimensional contingency table created with \code{\link{table}}.
-#' @param match.names Flag whether row and columns should be matched by name.
 #'
 #' @details  Suppose we want to compare two classifications summarized by the
 #'   contingency table \eqn{T=[t_{ij}]} where \eqn{i,j=1,\ldots,K} and
@@ -46,7 +45,7 @@
 #'
 #' @seealso \code{\link[e1071]{matchClasses}}
 #'
-#' @author  Friedrich Leisch
+#' @author  For Rand Friedrich Leisch
 #'
 #'
 #' @examples
@@ -72,25 +71,28 @@
 #' @importFrom dplyr tibble
 #'
 #' @export
-calc_agreement <- function(tabble, match.names = FALSE) {
+calc_agreement <- function(tabble) {
+
+  if (!prod(dim(tabble)) == 4 || !length(tabble) == 4) {
+    warning('Some association metrics may not be\ncalculated due to lack of 2x2 table')
+    flag_2x2 = TRUE
+  }
+  else {
+    flag_2x2 = FALSE
+  }
+
+  # init
   # sum, rowsums, colsums
   n  <- sum(tabble)
   ni <- rowSums(tabble)
   nj <- colSums(tabble)
 
+  # Calculate kappa ---------------------------------------------------------
 
-  # Calculate necessary quantities ------------------------------------------
-
-  if (match.names && !is.null(dimnames(tabble))) {
-    lev <- intersect(colnames(tabble), rownames(tabble))
-    p0  <- sum(diag(tabble[lev, lev])) / n
-    pc  <- sum(ni[lev] * nj[lev]) / n ^ 2
-  }
-  else {
-    m  <- min(length(ni), length(nj))
-    p0 <- sum(diag(tabble[1:m, 1:m])) / n
-    pc <- sum((ni[1:m] / n) * (nj[1:m] / n))
-  }
+  m  <- min(length(ni), length(nj))
+  p0 <- sum(diag(tabble[1:m, 1:m])) / n
+  pc <- sum((ni[1:m] / n) * (nj[1:m] / n))
+  kappa = (p0 - pc) / (1 - pc)
 
 
   # Calculate Rand ----------------------------------------------------------
@@ -108,11 +110,49 @@ calc_agreement <- function(tabble, match.names = FALSE) {
     ((nis2 + njs2) / 2 - (nis2 * njs2) / n2)
 
 
+
+
+  a <- tabble[1, 1]
+  b <- tabble[1, 2]
+  c <- tabble[2, 1]
+  d <- tabble[2, 2]
+
+  if (flag_2x2) {
+    Phi = NA
+    Yule = NA
+    Peirce = NA
+    Jaccard = NA
+  }
+  else {
+    # Calculate phi -----------------------------------------------------------
+    r_prop <- ni/n
+    c_prop <- nj/n
+    v <- prod(r_prop, c_prop)
+
+    Phi <- (a/n - c_prop[1]*r_prop[1]) / sqrt(v)
+    # Calculate Yule ----------------------------------------------------------
+
+    Yule <- (a * d - b * c)/(a * d + b * c)
+
+
+    # Calculate Peirce --------------------------------------------------------
+
+    Peirce <- (a*b + b*c) / (a*b + 2*b*c + c*d)  # same as Sensitivity + Specificity - 1
+
+    # Jaccard (Dice/F1 w/o the 2*d)
+    Jaccard = d / (d + b + c)
+  }
+
+
+
   # Return result -----------------------------------------------------------
+
   dplyr::tibble(
-    # accuracy = p0,
-    Kappa = (p0 - pc) / (1 - pc),
-    # rand = rand,
-    `Corrected Rand` = crand
+    Kappa = kappa,
+    `Corrected Rand` = crand,
+    Yule,
+    Phi,
+    Peirce,
+    Jaccard
   )
 }

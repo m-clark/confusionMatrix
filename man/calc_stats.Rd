@@ -9,7 +9,7 @@ calc_stats(tabble, prevalence = NULL, positive, ...)
 \arguments{
 \item{tabble}{A frequency table created with \code{\link{table}}}
 
-\item{prevalence}{Prevalance value. Default is \code{NULL}}
+\item{prevalence}{Prevalence value. Default is \code{NULL}}
 
 \item{positive}{Positive class}
 

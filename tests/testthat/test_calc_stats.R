@@ -29,7 +29,7 @@ test_that("calc_stats works", {
 })
 
 test_that("calc_stats works", {
-  expect_s3_class(calc_stats(cm_multi, positive = 'a'), 'data.frame')
+  expect_s3_class(suppressWarnings(calc_stats(cm_multi, positive = 'a')), 'data.frame')
 })
 
 test_that("calc_stats errors on bad table", {
@@ -60,6 +60,7 @@ test_that("check d_prime edge case", {
 test_that("confusion_matrix returns correct results for descriptives", {
   p_2class = sample(0:1, 250, replace = TRUE, prob = 1:2)
   o_2class = sample(0:1, 250, replace = TRUE, prob = 1:2)
+
   ns = colSums(table(p_2class, o_2class))
   tab = confusion_matrix(p_2class, o_2class, return_table = TRUE)
 
@@ -69,13 +70,29 @@ test_that("confusion_matrix returns correct results for descriptives", {
   expect_equivalent(tab$Other$`N Negative`, ns[2])
 })
 
+# predictions from glm see helper file
+tab = calc_stats(table(predict_class, y), positive = '1')
+
+test_that("confusion_matrix returns correct results for additional stats", {
+  # 'Other' statistics
+  expect_lt(abs(tab$`Sensitivity/Recall/TPR` - caret_stats$byClass['Sensitivity']), 1e-3)
+  expect_lt(abs(tab$`Specificity/TNR` - caret_stats$byClass['Specificity']), 1e-3)
+  expect_lt(abs(tab$`PPV/Precision` - caret_stats$byClass['Pos Pred Value']), 1e-3)
+  expect_lt(abs(tab$NPV - caret_stats$byClass['Neg Pred Value']), 1e-3)
+  expect_lt(abs(tab$`F1/Dice` - caret_stats$byClass['F1']), 1e-3)
+  expect_lt(abs(tab$Prevalence - caret_stats$byClass['Prevalence']), 1e-3)
+  expect_lt(abs(tab$`Detection Rate` - caret_stats$byClass['Detection Rate']), 1e-3)
+  expect_lt(abs(tab$`Detection Prevalence` - caret_stats$byClass['Detection Prevalence']), 1e-3)
+  expect_lt(abs(tab$`Balanced Accuracy` - caret_stats$byClass['Balanced Accuracy']), 1e-3)
+})
+
+
 test_that("confusion_matrix returns correct results for AUC d prime", {
-
-  # predictions from glm see helper file
-  tab = calc_stats(table(predict_class, y), positive = '1')
-
-  # AUCs
+ # AUCs
   expect_lt(abs(tab$AUC - ys_auc$.estimate), .02)
   expect_lt(abs(tab$AUC - psych_auc$AUC), 1e-3)
+
+  # dprime
   expect_lt(abs(tab$`D Prime` - psych_auc$d.prime), 1e-3)
 })
+

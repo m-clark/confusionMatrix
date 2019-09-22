@@ -10,7 +10,7 @@
 #'   \code{return_table}.
 #' @param positive The positive class for a 2-class setting. Default is
 #'   \code{NULL}, which will result in using the first level of \code{observed}.
-#' @param prevalence Prevalance rate.  Default is \code{NULL}.
+#' @param prevalence Prevalence rate.  Default is \code{NULL}.
 #' @param ... Other parameters, not currently used.
 #'
 #' @details This returns accuracy, agreement, and other statistics. See the
@@ -103,10 +103,10 @@ confusion_matrix <- function(
 
   result_accuracy   = calc_accuracy(conf_mat)
   result_agreement  = calc_agreement(conf_mat)
-  acc_agg = dplyr::bind_cols(
-    result_accuracy,
-    result_agreement
-  )
+  # acc_agg = dplyr::bind_cols(
+  #   result_accuracy,
+  #   result_agreement
+  # )
 
   if (numLevels == 2) {
     result_statistics = calc_stats(
@@ -126,15 +126,19 @@ confusion_matrix <- function(
       dplyr::select(Positive, N, `N Positive`, `N Negative`, everything())
 
     result = list(
-      `Accuracy and Agreement` = acc_agg,
-      Other = result_statistics
+      `Accuracy and Agreement` = result_accuracy,
+      Other = result_statistics,
+      `Association and Agreement` = result_agreement
     )
   } else {
-    result_statistics = lapply(classLevels, function(i) calc_stats(
+    result_statistics = lapply(
+      classLevels,
+      function(i) calc_stats(
         conf_mat,
         prevalence = prevalence,
         positive = i
-      ))
+      )
+    )
 
     result_statistics = dplyr::bind_rows(result_statistics) %>%
       mutate(N = colSums(conf_mat))
@@ -152,8 +156,9 @@ confusion_matrix <- function(
       dplyr::select(Class, N, everything())
 
     result = list(
-      `Accuracy and Agreement` = acc_agg,
-      Other = result_statistics
+      `Accuracy and Agreement` = result_accuracy,
+      Other = result_statistics,
+      `Association and Agreement` = result_agreement
     )
   }
 

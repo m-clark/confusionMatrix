@@ -137,8 +137,10 @@ calc_agreement <- function(tabble) {
 
   # Calculate Peirce --------------------------------------------------------
 
-  Peirce <- (a*b + b*c) / (a*b +2*b*c + c*d)  # same as Sensitivity + Specificity - 1
+  Peirce <- (a*b + b*c) / (a*b + 2*b*c + c*d)  # same as Sensitivity + Specificity - 1
 
+  # Jaccard (Dice/F1 w/o the 2*d)
+  Jaccard = d / (d + b + c)
 
   # Return result -----------------------------------------------------------
 
@@ -147,6 +149,7 @@ calc_agreement <- function(tabble) {
     `Corrected Rand` = crand,
     Yule,
     Phi,
-    Peirce
+    Peirce,
+    Jaccard
   )
 }

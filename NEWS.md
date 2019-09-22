@@ -1,6 +1,6 @@
-# confusionMatrix (development version)
+# confusionMatrix 0.3.0
 
-* simplify d'
+* Add various statistics, add documentation, cleanup code.
 
 # confusionMatrix 0.2.1
 

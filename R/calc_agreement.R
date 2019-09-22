@@ -111,7 +111,6 @@ calc_agreement <- function(tabble) {
 
 
 
-  # Calculate phi -----------------------------------------------------------
 
   a <- tabble[1, 1]
   b <- tabble[1, 2]
@@ -120,27 +119,31 @@ calc_agreement <- function(tabble) {
 
   if (flag_2x2) {
     Phi = NA
+    Yule = NA
+    Peirce = NA
+    Jaccard = NA
   }
   else {
+    # Calculate phi -----------------------------------------------------------
     r_prop <- ni/n
     c_prop <- nj/n
     v <- prod(r_prop, c_prop)
 
     Phi <- (a/n - c_prop[1]*r_prop[1]) / sqrt(v)
+    # Calculate Yule ----------------------------------------------------------
+
+    Yule <- (a * d - b * c)/(a * d + b * c)
+
+
+    # Calculate Peirce --------------------------------------------------------
+
+    Peirce <- (a*b + b*c) / (a*b + 2*b*c + c*d)  # same as Sensitivity + Specificity - 1
+
+    # Jaccard (Dice/F1 w/o the 2*d)
+    Jaccard = d / (d + b + c)
   }
 
 
-  # Calculate Yule ----------------------------------------------------------
-
-  Yule <- (a * d - b * c)/(a * d + b * c)
-
-
-  # Calculate Peirce --------------------------------------------------------
-
-  Peirce <- (a*b + b*c) / (a*b + 2*b*c + c*d)  # same as Sensitivity + Specificity - 1
-
-  # Jaccard (Dice/F1 w/o the 2*d)
-  Jaccard = d / (d + b + c)
 
   # Return result -----------------------------------------------------------
 

@@ -4,7 +4,7 @@
 #'   calculate numerous statistics of interest.
 #'
 #' @param tabble  A frequency table created with \code{\link{table}}
-#' @param prevalence Prevalance value. Default is \code{NULL}
+#' @param prevalence Prevalence value. Default is \code{NULL}
 #' @param positive Positive class
 #' @param ... Other, not currently used
 #' @details Used within confusion_matrix to calculate various confusion matrix
@@ -195,7 +195,7 @@ calc_stats <- function(tabble, prevalence = NULL, positive, ...) {
     lower.sum <- sum(fpx.diff * vpx[-1])
     upper.sum <- sum(fpx.diff * vpx[-length(vpx)])
     auc <- (lower.sum + upper.sum)/2
-    auc <- ifelse(auc < .5, 1-auc, auc)
+    auc <- ifelse(auc < .5, 1 - auc, auc)
     # shortcut auc = pnorm(tab$`D Prime`/sqrt(2))
   }
 

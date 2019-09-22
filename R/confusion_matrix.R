@@ -10,7 +10,7 @@
 #'   \code{return_table}.
 #' @param positive The positive class for a 2-class setting. Default is
 #'   \code{NULL}, which will result in using the first level of \code{observed}.
-#' @param prevalence Prevalance rate.  Default is \code{NULL}.
+#' @param prevalence Prevalence rate.  Default is \code{NULL}.
 #' @param ... Other parameters, not currently used.
 #'
 #' @details This returns accuracy, agreement, and other statistics. See the

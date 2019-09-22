@@ -46,3 +46,16 @@ test_that("calc_accuracy perfect prediction", {
   o = p
   expect_s3_class(suppressWarnings(confusion_matrix(p, o))[[1]], 'data.frame')
 })
+
+# Check stat results ------------------------------------------------------
+
+# predictions from glm see helper file
+tab = calc_accuracy(table(predict_class, y))
+
+test_that("calc_agreement returns correct results for additional stats", {
+  expect_lt(abs(tab$Accuracy - caret_stats$overall['Accuracy']), 1e-3)
+  expect_lt(abs(tab$`Accuracy LL` - caret_stats$overall['AccuracyLower']), 1e-3)
+  expect_lt(abs(tab$`Accuracy UL` - caret_stats$overall['AccuracyUpper']), 1e-3)
+  expect_lt(abs(tab$`Accuracy Guessing` - caret_stats$overall['AccuracyNull']), 1e-3)
+  expect_lt(abs(tab$`Accuracy P-value` - caret_stats$overall['AccuracyPValue']), 1e-3)
+})

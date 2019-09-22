@@ -22,7 +22,7 @@ vs. \code{observed.} Default is \code{FALSE}.}
 \item{positive}{The positive class for a 2-class setting. Default is
 \code{NULL}, which will result in using the first level of \code{observed}.}
 
-\item{prevalence}{Prevalance rate.  Default is \code{NULL}.}
+\item{prevalence}{Prevalence rate.  Default is \code{NULL}.}
 
 \item{...}{Other parameters, not currently used.}
 }

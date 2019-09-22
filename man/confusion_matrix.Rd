@@ -4,23 +4,23 @@
 \alias{confusion_matrix}
 \title{Calculate various statistics from a confusion matrix}
 \usage{
-confusion_matrix(prediction, observed, return_table = FALSE,
-  dnn = c("Predicted", "Observed"), positive = NULL,
-  prevalence = NULL, ...)
+confusion_matrix(prediction, target, return_table = FALSE,
+  dnn = c("Predicted", "target"), positive = NULL, prevalence = NULL,
+  ...)
 }
 \arguments{
 \item{prediction}{A vector of predictions}
 
-\item{observed}{A vector of observed values}
+\item{target}{A vector of target values}
 
 \item{return_table}{Logical. Whether to return the table of \code{prediction}
-vs. \code{observed.} Default is \code{FALSE}.}
+vs. \code{target.} Default is \code{FALSE}.}
 
 \item{dnn}{The row and column headers for the table returned by
 \code{return_table}.}
 
 \item{positive}{The positive class for a 2-class setting. Default is
-\code{NULL}, which will result in using the first level of \code{observed}.}
+\code{NULL}, which will result in using the first level of \code{target}.}
 
 \item{prevalence}{Prevalence rate.  Default is \code{NULL}.}
 
@@ -31,7 +31,7 @@ A list of tibble(s) with the associated statistics and possibly the
   frequency table as list column of the first element.
 }
 \description{
-Given a vector of predictions and observed values, calculate
+Given a vector of predictions and target values, calculate
   numerous statistics of interest.
 }
 \details{

@@ -17,9 +17,9 @@ o_multi = sample(letters[1:4], 250, replace = TRUE, prob = 1:4)
 # basic output ------------------------------------------------------------
 
 test_that("confusion_matrix works", {
-  ca = confusion_matrix(p_2class, o_2class)
-  expect_is(ca, 'list')
-  expect_s3_class(ca[[1]], 'data.frame')
+  cm = confusion_matrix(p_2class, o_2class)
+  expect_is(cm, 'list')
+  expect_s3_class(cm[[1]], 'data.frame')
 })
 
 test_that("confusion_matrix works", {
@@ -32,8 +32,8 @@ test_that("confusion_matrix works", {
 # dealing with positive argument ------------------------------------------
 
 test_that("confusion_matrix takes positive argument", {
-  ca = suppressWarnings(confusion_matrix(p_simple, o_simple, positive = '0'))
-  expect_identical(ca$Other$`Sensitivity/Recall/TPR`, 1)
+  cm = suppressWarnings(confusion_matrix(p_simple, o_simple, positive = '0'))
+  expect_identical(cm$Other$`Sensitivity/Recall/TPR`, 1)
 })
 
 test_that("confusion_matrix errors with wrong input: positive", {
@@ -44,7 +44,7 @@ test_that("confusion_matrix errors with wrong input: positive", {
 # test class levels -------------------------------------------------------
 
 
-test_that("confusion_matrix warns with prediction/observed mismatched levels", {
+test_that("confusion_matrix warns with prediction/target mismatched levels", {
   p = c(1, 1, 1, 1)
   o = c(0, 1, 1, 1)
   expect_warning(confusion_matrix(p, o))
@@ -56,14 +56,14 @@ test_that("confusion_matrix warns with prediction/observed mismatched levels", {
 test_that("confusion_matrix can handle different level pred/obs", {
   p_multi_relevel = factor(p_multi, levels = letters[4:1])
   p_multi_relevel2 = factor(p_multi, levels = letters[1:4])
-  ca_relevel = suppressWarnings(
+  cm_relevel = suppressWarnings(
     confusion_matrix(p_multi_relevel, o_multi, return_table = TRUE)
     )
-  ca = suppressWarnings(
+  cm = suppressWarnings(
     confusion_matrix(p_multi_relevel2, o_multi, return_table = TRUE)
   )
 
-  expect_identical(ca_relevel$`Frequency Table`, ca$`Frequency Table`)
+  expect_identical(cm_relevel$`Frequency Table`, cm$`Frequency Table`)
 })
 
 # test numeric classes ----------------------------------------------------
@@ -86,7 +86,7 @@ test_that("confusion_matrix returns table", {
 
 # Will error on incorrect input -------------------------------------------
 
-test_that("confusion_matrix errors if only one observed class", {
+test_that("confusion_matrix errors if only one target class", {
   p = c(0, 1, 1, 1)
   o = c(1, 1, 1, 1)
   expect_error(suppressWarnings(confusion_matrix(p, o)))
@@ -97,11 +97,11 @@ test_that("confusion_matrix errors if positive class doesn't exist", {
 })
 
 
-# test_that("confusion_matrix can handle logical/character mix", {
+# # test_that("confusion_matrix can handle logical/character mix", {
 #   o_logical = c(FALSE, TRUE, TRUE, TRUE)
 #   p_char = c('a', 'a', 'b', 'b')
 #   expect_is(confusion_matrix(p_char, o_logical), 'list')
-# })
+# # })
 
 # TODO: Add error for char/fac vs. numeric/logical (better) or add fancy relabeling of predictor (asking for trouble)
 

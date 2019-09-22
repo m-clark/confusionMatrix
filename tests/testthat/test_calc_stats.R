@@ -37,7 +37,7 @@ test_that("calc_stats errors on bad table", {
 })
 
 # not sure this should ever happen as predicted is forced to have same levels as
-# observed
+# target
 test_that("calc_stats errors on misordered table", {
   rownames(cm_2class) = c('1', '0')
   expect_error(calc_stats(cm_2class, positive = '1'))

@@ -34,38 +34,60 @@
 #'   Both indices have to be corrected for agreement by chance if the sizes  of
 #'   the classes are not uniform.
 #'
+#'   In addition, the Phi coefficient, Yule coefficient, Peirce's science of the
+#'   method (sometimes called the Youden's J index, though it predates Youden by
+#'   66 years), and Jaccard index are calculated.  The first two are based on
+#'   the approach in the \code{psych} package.
+#'
 #' @return A tibble with:
 #' \item{kappa}{\code{diag} corrected for agreement by chance.}
 #' \item{crand}{Rand index corrected for agreement by chance.}
 #'
 #' @references
-#' Cohen. J. A coefficient of agreement for nominal scales. Educational and Psychological Measurement, 20, 37--46, 1960.
+#' Cohen. J. (1960) A coefficient of agreement for nominal scales. Educational
+#' and Psychological Measurement.
 #'
-#' Lawrence Hubert and Phipps Arabie. Comparing partitions. Journal of Classification, 2, 193--218, 1985.
+#' Lawrence Hubert and Phipps Arabie (1985) Comparing partitions. Journal of
+#' Classification.
 #'
-#' @seealso \code{\link[e1071]{matchClasses}}
+#' Stuart G Baker & Barnett S Kramer (2007) Peirce, Youden, and Receiver
+#' Operating Characteristic Curves, The American Statistician.
 #'
-#' @author  For Rand Friedrich Leisch
+#' Peirce, C. S. (1884) "The Numerical Measure of the Success of Predictions",
+#' Science.
+#'
+#' @seealso \code{\link[e1071]{matchClasses}}, \code{\link[psych]{phi}},
+#'   \code{\link[psych]{Yule}}
+#'
+#' @author  For Adjusted Rand code: Friedrich Leisch
 #'
 #'
 #' @examples
 #'  ## no class correlations: both kappa and crand almost zero
+#'
 #'  g1 <- sample(1:5, size=1000, replace=TRUE)
 #'  g2 <- sample(1:5, size=1000, replace=TRUE)
+#'
 #'  tabble <- table(g1, g2)
+#'
 #'  calc_agreement(tabble)
 #'
 #'  ## let pairs (g1=1,g2=1) and (g1=3,g2=3) agree better
+#'
 #'  k <- sample(1:1000, size=200)
+#'
 #'  g1[k] <- 1
 #'  g2[k] <- 1
 #'
 #'  k <- sample(1:1000, size=200)
+#'
 #'  g1[k] <- 3
 #'  g2[k] <- 3
 #'
 #'  tabble <- table(g1, g2)
+#'
 #'  ## both kappa and crand should be significantly larger than before
+#'
 #'  calc_agreement(tabble)
 #'
 #' @importFrom dplyr tibble
@@ -92,7 +114,7 @@ calc_agreement <- function(tabble) {
   m  <- min(length(ni), length(nj))
   p0 <- sum(diag(tabble[1:m, 1:m])) / n
   pc <- sum((ni[1:m] / n) * (nj[1:m] / n))
-  kappa = (p0 - pc) / (1 - pc)
+  kappa <- (p0 - pc) / (1 - pc)
 
 
   # Calculate Rand ----------------------------------------------------------
@@ -109,9 +131,6 @@ calc_agreement <- function(tabble) {
   crand <- (sum(choose(tabble[tabble > 1], 2)) - (nis2 * njs2) / n2) /
     ((nis2 + njs2) / 2 - (nis2 * njs2) / n2)
 
-
-
-
   a <- tabble[1, 1]
   b <- tabble[1, 2]
   c <- tabble[2, 1]
@@ -124,23 +143,28 @@ calc_agreement <- function(tabble) {
     Jaccard = NA
   }
   else {
+
     # Calculate phi -----------------------------------------------------------
+
     r_prop <- ni/n
     c_prop <- nj/n
     v <- prod(r_prop, c_prop)
 
     Phi <- (a/n - c_prop[1]*r_prop[1]) / sqrt(v)
+
     # Calculate Yule ----------------------------------------------------------
 
     Yule <- (a * d - b * c)/(a * d + b * c)
 
-
     # Calculate Peirce --------------------------------------------------------
 
-    Peirce <- (a*b + b*c) / (a*b + 2*b*c + c*d)  # same as Sensitivity + Specificity - 1
+    # same as Sensitivity + Specificity - 1
+    Peirce <- (a*b + b*c) / (a*b + 2*b*c + c*d)
 
-    # Jaccard (Dice/F1 w/o the 2*d)
-    Jaccard = d / (d + b + c)
+    # Calculate Jaccard ---------------------------------
+
+    # Dice/F1 w/o the 2*d
+    Jaccard <- d / (d + b + c)
   }
 
 
@@ -149,7 +173,7 @@ calc_agreement <- function(tabble) {
 
   dplyr::tibble(
     Kappa = kappa,
-    `Corrected Rand` = crand,
+    `Adjusted Rand` = crand,
     Yule,
     Phi,
     Peirce,

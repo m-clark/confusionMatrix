@@ -1,6 +1,6 @@
 #' Calculate various statistics from a confusion matrix
 #'
-#' @description Given a frequency table of predictions versus observed values,
+#' @description Given a frequency table of predictions versus target values,
 #'   calculate numerous statistics of interest.
 #'
 #' @param tabble  A frequency table created with \code{\link{table}}
@@ -12,7 +12,7 @@
 #'
 #' Suppose a 2x2 table with notation
 #'
-#' \tabular{rcc}{ \tab Observed \tab \cr Predicted \tab Event \tab No Event
+#' \tabular{rcc}{ \tab target \tab \cr Predicted \tab Event \tab No Event
 #' \cr Event \tab A \tab B \cr No Event \tab C \tab D \cr }
 #'
 #' The formulas used here are:
@@ -98,14 +98,17 @@ calc_stats <- function(tabble, prevalence = NULL, positive, ...) {
   if (nrow(tabble_init) > 2) {
     tmp <- tabble_init
     tabble <- matrix(NA, 2, 2)
+
     colnames(tabble) <- rownames(tabble) <- c("pos", "neg")
     posCol <- which(colnames(tmp) %in% positive)
     negCol <- which(!(colnames(tmp) %in% positive))
+
     tabble[1, 1] <- sum(tmp[posCol, posCol])
     tabble[1, 2] <- sum(tmp[posCol, negCol])
     tabble[2, 1] <- sum(tmp[negCol, posCol])
     tabble[2, 2] <- sum(tmp[negCol, negCol])
     tabble <- as.table(tabble)
+
     pos <- "pos"
     neg <- "neg"
 
@@ -119,9 +122,8 @@ calc_stats <- function(tabble, prevalence = NULL, positive, ...) {
   denom <- sum(tabble[, pos])
   sens  <- ifelse(denom > 0, numer/denom, NA)
 
-  detection_rate = sum(tabble[pos, pos])/sum(tabble)
-  detection_prevalence = sum(tabble[pos, ])/sum(tabble)
-
+  detection_rate <- sum(tabble[pos, pos])/sum(tabble)
+  detection_prevalence <- sum(tabble[pos, ])/sum(tabble)
 
 
   # Calculate Specificity ---------------------------------------------------
@@ -132,12 +134,6 @@ calc_stats <- function(tabble, prevalence = NULL, positive, ...) {
 
 
   # Calculate Prevalence ----------------------------------------------------
-
-  prev <- ifelse (
-    is.null(prevalence),
-    sum(tabble_init[, positive]) / sum(tabble_init),
-    prevalence
-  )
 
   if (is.null(prevalence))
     prevalence <- sum(tabble_init[, positive]) / sum(tabble_init)
@@ -163,8 +159,8 @@ calc_stats <- function(tabble, prevalence = NULL, positive, ...) {
 
   # check for inability to calculate
   if (any(rowSums(tabble) == 0)) {
-    d_prime = NA
-    auc = NA
+    d_prime <- NA
+    auc <- NA
   }
   else {
     d_prime <- qnorm(sens) - qnorm(1-spec)  # primary calculation
@@ -173,8 +169,8 @@ calc_stats <- function(tabble, prevalence = NULL, positive, ...) {
     if (is.infinite(d_prime)) {
       warning('Encountered infinite values for d_prime,
     fudge factor introduced to correct.')
-      sens_ = abs(sens - .000001)
-      spec_ = abs(spec - .000001)
+      sens_   <- abs(sens - .000001)
+      spec_   <- abs(spec - .000001)
       d_prime <- qnorm(sens_) - qnorm(1 - spec_)
 
       xmax <- max(4, d_prime + 3)
@@ -202,13 +198,13 @@ calc_stats <- function(tabble, prevalence = NULL, positive, ...) {
 
   # Return result -----------------------------------------------------------
 
-  result = dplyr::tibble(
+  dplyr::tibble(
     `Sensitivity/Recall/TPR` = sens,
     `Specificity/TNR` = spec,
     `PPV/Precision` = ppv,
     `NPV` = npv,
     `F1/Dice` = f1,
-    `Prevalence` = prev,
+    `Prevalence` = prevalence,
     `Detection Rate` = detection_rate,
     `Detection Prevalence` = detection_prevalence,
     `Balanced Accuracy` = (sens + spec)/2,
@@ -219,6 +215,4 @@ calc_stats <- function(tabble, prevalence = NULL, positive, ...) {
     `D Prime` = d_prime,
     `AUC` = auc
   )
-
-  result
 }

@@ -1,18 +1,19 @@
 #' @name confusionMatrix
 
-#' @description  The goal of this package is primarily to provide an easy
-#'   way to obtain common confusion table metrics in a tidy fashion.  The
-#'   inspiration and a good chunk of the code borrows heavily from Max Kuhn's
-#'   \code{caret} package and associated function \code{confusionMatrix}, and
-#'   the continuation of those efforts in the \code{yardstick} package.  Here,
-#'   practically all dependencies have been removed except for dplyr, and
-#'   results are tibbles making for easier document presentation, as well as the
-#'   ability to peel off the statistics desired.
+#' @description  The goal of this package is primarily to provide an easy way to
+#'   obtain common confusion table metrics in a tidy fashion.  The inspiration
+#'   comes from Max Kuhn's \code{caret} package and associated function
+#'   \code{confusionMatrix}, and the continuation of those efforts in the
+#'   \code{yardstick} package.  Here, practically all dependencies have been
+#'   removed except for dplyr, and results are tibbles making for easier
+#'   document presentation, as well as the ability to peel off the statistics
+#'   desired.
 #'
 #'   All that is required is a vector of predicted classes and a vector of
-#'   observed classes, as that is typically what we're dealing with in such
-#'   scenarios.  These can be logical, integer/numeric, character, or factor,
-#'   but the predictions should match the observations in an obvious way.
+#'   target classes, as that is typically what we're dealing with in such
+#'   scenarios, i.e. predictions vs. a target variable.  These can be logical,
+#'   integer/numeric, character, or factor, but the predictions should match the
+#'   target in an obvious way.
 #'
 #'   Statistics provided include:
 #'
@@ -42,13 +43,15 @@
 #'
 #'     - F1
 #'
-#'   Measures of Association:
+#'   Measures of Agreement/Association:
 #'
 #'     - Phi
 #'
 #'     - Yule's
 #'
 #'     - Peirce's science of the method (Youden's J)
+#'
+#'     - Jaccard
 #'
 
 #' @keywords internal

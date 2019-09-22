@@ -20,7 +20,7 @@ A tibble with (at present) columns for sensitivity, specificity, PPV, NPV, F1 sc
   > 2 classes, these statistics are provided for each class.
 }
 \description{
-Given a frequency table of predictions versus observed values,
+Given a frequency table of predictions versus target values,
   calculate numerous statistics of interest.
 }
 \details{
@@ -29,7 +29,7 @@ Used within confusion_matrix to calculate various confusion matrix
 
 Suppose a 2x2 table with notation
 
-\tabular{rcc}{ \tab Observed \tab \cr Predicted \tab Event \tab No Event
+\tabular{rcc}{ \tab target \tab \cr Predicted \tab Event \tab No Event
 \cr Event \tab A \tab B \cr No Event \tab C \tab D \cr }
 
 The formulas used here are:

@@ -23,9 +23,9 @@ test_that("confusion_matrix works", {
 })
 
 test_that("confusion_matrix works", {
-  ca = confusion_matrix(p_multi, o_multi)
-  expect_is(ca, 'list')
-  expect_s3_class(ca[[1]], 'data.frame')
+  cm = confusion_matrix(p_2class, o_2class)
+  expect_is(cm, 'list')
+  expect_s3_class(cm[[1]], 'data.frame')
 })
 
 
@@ -37,7 +37,7 @@ test_that("confusion_matrix takes positive argument", {
 })
 
 test_that("confusion_matrix errors with wrong input: positive", {
-  expect_error(confusion_matrix(p_multi, o_multi, positive = 1))
+  expect_error(confusion_matrix(p_2class, o_2class, positive = 1))
 })
 
 
@@ -59,7 +59,9 @@ test_that("confusion_matrix can handle different level pred/obs", {
   ca_relevel = suppressWarnings(
     confusion_matrix(p_multi_relevel, o_multi, return_table = TRUE)
     )
-  ca = confusion_matrix(p_multi_relevel2, o_multi, return_table = TRUE)
+  ca = suppressWarnings(
+    confusion_matrix(p_multi_relevel2, o_multi, return_table = TRUE)
+  )
 
   expect_identical(ca_relevel$`Frequency Table`, ca$`Frequency Table`)
 })

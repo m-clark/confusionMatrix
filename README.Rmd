@@ -27,10 +27,9 @@ knitr::opts_chunk$set(
 
 <br>
 
-A hopefully straightforward re-implementation inspired by the `caret` package to
-simplify input and return 'tidy' results with as few dependencies as possible.
-The goal is to provide a wealth of simple(!) summary statistics that can be
-calculated from a single confusion matrix.
+Given predictions and a target variable, provide numerous statistics from the resulting confusion matrix. The goal is to provide a wealth of summary statistics that can be calculated from a single confusion matrix, and return **tidy** results with as few dependencies as possible.
+
+
 
 
 ```{r demo}
@@ -47,9 +46,7 @@ result = confusion_matrix(
 
 result
 
-dplyr::glimpse(result$Accuracy)
-dplyr::glimpse(result$Other)
-dplyr::glimpse(result$`Association and Agreement`)
+result$Accuracy$`Frequency Table`
 ```
 
 ```{r demo-longer}

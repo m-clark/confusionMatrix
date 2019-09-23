@@ -180,16 +180,16 @@ confusion_matrix <- function(
   # Return result -----------------------------------------------------------
 
   # Note, can remove version check after a while
-  test_tidyr = tryCatch(utils::packageVersion("tidyr"), error = function(c) "error")
+  test_tidyr <- tryCatch(utils::packageVersion("tidyr"), error = function(c) "error")
 
-  test_tidyr_installed = inherits(test_tidyr, 'error')
+  test_tidyr_installed <- inherits(test_tidyr, 'error')
 
   if (!test_tidyr_installed)
-    tidyr_version = as.numeric(substr(test_tidyr, start = 1, stop = 1))
+    tidyr_version <- as.numeric(substr(test_tidyr, start = 1, stop = 1))
 
   if (longer & (test_tidyr_installed | tidyr_version < 1)) {
     message('Tidyr >= 1.0 not installed. longer argument ignored.')
-    longer = FALSE
+    longer <- FALSE
   }
 
   if (longer) {

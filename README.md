@@ -18,11 +18,11 @@ maturing](https://img.shields.io/badge/lifecycle-experimental-blue.svg)](https:/
 
 <br>
 
-A hopefully straightforward re-implementation inspired by the `caret`
-package to simplify input and return ‘tidy’ results with as few
-dependencies as possible. The goal is to provide a wealth of simple(\!)
+Given predictions and a target variable, provide numerous statistics
+from the resulting confusion matrix. The goal is to provide a wealth of
 summary statistics that can be calculated from a single confusion
-matrix.
+matrix, and return **tidy** results with as few dependencies as
+possible.
 
 ``` r
 library(confusionMatrix)
@@ -43,14 +43,14 @@ result
     # A tibble: 1 x 6
       Accuracy `Accuracy LL` `Accuracy UL` `Accuracy Guess~ `Accuracy P-val~
          <dbl>         <dbl>         <dbl>            <dbl>            <dbl>
-    1    0.564         0.500         0.626            0.624            0.978
+    1    0.524         0.460         0.587            0.668            1.000
     # ... with 1 more variable: `Frequency Table` <list>
     
     $Other
     # A tibble: 1 x 19
       Positive     N `N Positive` `N Negative` `Sensitivity/Re~
       <chr>    <int>        <int>        <int>            <dbl>
-    1 a          250           94          156            0.319
+    1 a          250           83          167            0.313
     # ... with 14 more variables: `Specificity/TNR` <dbl>,
     #   `PPV/Precision` <dbl>, NPV <dbl>, `F1/Dice` <dbl>, Prevalence <dbl>,
     #   `Detection Rate` <dbl>, `Detection Prevalence` <dbl>, `Balanced
@@ -59,61 +59,19 @@ result
     
     $`Association and Agreement`
     # A tibble: 1 x 6
-       Kappa `Adjusted Rand`   Yule    Phi Peirce Jaccard
-       <dbl>           <dbl>  <dbl>  <dbl>  <dbl>   <dbl>
-    1 0.0320         0.00342 0.0725 0.0324  0.298   0.505
+        Kappa `Adjusted Rand`   Yule     Phi Peirce Jaccard
+        <dbl>           <dbl>  <dbl>   <dbl>  <dbl>   <dbl>
+    1 -0.0571         -0.0110 -0.128 -0.0572  0.351   0.469
 
 ``` r
-dplyr::glimpse(result$Accuracy)
+result$Accuracy$`Frequency Table`
 ```
 
-    Observations: 1
-    Variables: 6
-    $ Accuracy            <dbl> 0.564
-    $ `Accuracy LL`       <dbl> 0.5000795
-    $ `Accuracy UL`       <dbl> 0.6263848
-    $ `Accuracy Guessing` <dbl> 0.624
-    $ `Accuracy P-value`  <dbl> 0.9777636
-    $ `Frequency Table`   <list> [<table[2 x 2]>]
-
-``` r
-dplyr::glimpse(result$Other)
-```
-
-    Observations: 1
-    Variables: 19
-    $ Positive                 <chr> "a"
-    $ N                        <int> 250
-    $ `N Positive`             <int> 94
-    $ `N Negative`             <int> 156
-    $ `Sensitivity/Recall/TPR` <dbl> 0.3191489
-    $ `Specificity/TNR`        <dbl> 0.7115385
-    $ `PPV/Precision`          <dbl> 0.4
-    $ NPV                      <dbl> 0.6342857
-    $ `F1/Dice`                <dbl> 0.3550296
-    $ Prevalence               <dbl> 0.376
-    $ `Detection Rate`         <dbl> 0.12
-    $ `Detection Prevalence`   <dbl> 0.3
-    $ `Balanced Accuracy`      <dbl> 0.5153437
-    $ FDR                      <dbl> 0.6
-    $ FOR                      <dbl> 0.3657143
-    $ `FPR/Fallout`            <dbl> 0.2884615
-    $ FNR                      <dbl> 0.6808511
-    $ `D Prime`                <dbl> 0.08780478
-    $ AUC                      <dbl> 0.5244596
-
-``` r
-dplyr::glimpse(result$`Association and Agreement`)
-```
-
-    Observations: 1
-    Variables: 6
-    $ Kappa           <dbl> 0.03197158
-    $ `Adjusted Rand` <dbl> 0.003421856
-    $ Yule            <dbl> 0.07246377
-    $ Phi             <dbl> 0.0324367
-    $ Peirce          <dbl> 0.2975939
-    $ Jaccard         <dbl> 0.5045455
+    [[1]]
+             Target
+    Predicted   a   b
+            a  26  62
+            b  57 105
 
 ``` r
 result = confusion_matrix(
@@ -125,51 +83,49 @@ result = confusion_matrix(
 result
 ```
 
-``` 
-$Accuracy
-# A tibble: 5 x 2
-  Statistic         Value
-  <chr>             <dbl>
-1 Accuracy          0.564
-2 Accuracy LL       0.500
-3 Accuracy UL       0.626
-4 Accuracy Guessing 0.624
-5 Accuracy P-value  0.978
-
-$Other
-# A tibble: 18 x 3
-   Positive Statistic                 Value
-   <chr>    <chr>                     <dbl>
- 1 a        N                      250     
- 2 a        N Positive              94     
- 3 a        N Negative             156     
- 4 a        Sensitivity/Recall/TPR   0.319 
- 5 a        Specificity/TNR          0.712 
- 6 a        PPV/Precision            0.4   
- 7 a        NPV                      0.634 
- 8 a        F1/Dice                  0.355 
- 9 a        Prevalence               0.376 
-10 a        Detection Rate           0.12  
-11 a        Detection Prevalence     0.3   
-12 a        Balanced Accuracy        0.515 
-13 a        FDR                      0.6   
-14 a        FOR                      0.366 
-15 a        FPR/Fallout              0.288 
-16 a        FNR                      0.681 
-17 a        D Prime                  0.0878
-18 a        AUC                      0.524 
-
-$`Association and Agreement`
-# A tibble: 6 x 2
-  Statistic       Value
-  <chr>           <dbl>
-1 Kappa         0.0320 
-2 Adjusted Rand 0.00342
-3 Yule          0.0725 
-4 Phi           0.0324 
-5 Peirce        0.298  
-6 Jaccard       0.505  
-```
+    $Accuracy
+    # A tibble: 5 x 2
+      Statistic         Value
+      <chr>             <dbl>
+    1 Accuracy          0.524
+    2 Accuracy LL       0.460
+    3 Accuracy UL       0.587
+    4 Accuracy Guessing 0.668
+    5 Accuracy P-value  1.000
+    
+    $Other
+    # A tibble: 18 x 3
+       Positive Statistic                Value
+       <chr>    <chr>                    <dbl>
+     1 a        N                      250    
+     2 a        N Positive              83    
+     3 a        N Negative             167    
+     4 a        Sensitivity/Recall/TPR   0.313
+     5 a        Specificity/TNR          0.629
+     6 a        PPV/Precision            0.295
+     7 a        NPV                      0.648
+     8 a        F1/Dice                  0.304
+     9 a        Prevalence               0.332
+    10 a        Detection Rate           0.104
+    11 a        Detection Prevalence     0.352
+    12 a        Balanced Accuracy        0.471
+    13 a        FDR                      0.705
+    14 a        FOR                      0.352
+    15 a        FPR/Fallout              0.371
+    16 a        FNR                      0.687
+    17 a        D Prime                 -0.158
+    18 a        AUC                      0.545
+    
+    $`Association and Agreement`
+    # A tibble: 6 x 2
+      Statistic       Value
+      <chr>           <dbl>
+    1 Kappa         -0.0571
+    2 Adjusted Rand -0.0110
+    3 Yule          -0.128 
+    4 Phi           -0.0572
+    5 Peirce         0.351 
+    6 Jaccard        0.469 
 
 ### Installation
 

@@ -4,25 +4,31 @@
 \alias{confusion_matrix}
 \title{Calculate various statistics from a confusion matrix}
 \usage{
-confusion_matrix(prediction, target, return_table = FALSE,
-  dnn = c("Predicted", "target"), positive = NULL, prevalence = NULL,
-  ...)
+confusion_matrix(prediction, target, positive = NULL,
+  prevalence = NULL, return_table = FALSE, dnn = c("Predicted",
+  "Target"), longer = FALSE, ...)
 }
 \arguments{
 \item{prediction}{A vector of predictions}
 
 \item{target}{A vector of target values}
 
-\item{return_table}{Logical. Whether to return the table of \code{prediction}
-vs. \code{target.} Default is \code{FALSE}.}
-
-\item{dnn}{The row and column headers for the table returned by
-\code{return_table}.}
-
 \item{positive}{The positive class for a 2-class setting. Default is
 \code{NULL}, which will result in using the first level of \code{target}.}
 
 \item{prevalence}{Prevalence rate.  Default is \code{NULL}.}
+
+\item{return_table}{Logical. Whether to return the table of \code{prediction}
+vs. \code{target.} Default is \code{FALSE}. Cannot have both
+\code{return_table} and \code{longer} TRUE.}
+
+\item{dnn}{The row and column headers for the table returned by
+\code{return_table}.  Default is 'Predicted' for rows and 'Target' for
+columns.}
+
+\item{longer}{Transpose the output to long form.  Default is FALSE (requires
+\code{tidyr 1.0}).  Cannot have both \code{return_table} and \code{longer}
+TRUE.}
 
 \item{...}{Other parameters, not currently used.}
 }
@@ -42,10 +48,10 @@ This returns accuracy, agreement, and other statistics. See the
 \examples{
 library(confusionMatrix)
 
-p = c(0,1,1,0)
-o = c(0,1,1,1)
+p = c(0,1,1,0,0,1,0,1,1,1)
+o = c(0,1,1,1,0,1,0,1,0,1)
 
-confusion_matrix(p, o, return_table = TRUE)
+confusion_matrix(p, o, return_table = TRUE, positive = '1')
 
 p = sample(letters[1:4], 250, replace = TRUE, prob = 1:4)
 o = sample(letters[1:4], 250, replace = TRUE, prob = 1:4)

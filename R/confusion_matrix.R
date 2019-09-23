@@ -4,13 +4,18 @@
 #'   numerous statistics of interest.
 #' @param prediction A vector of predictions
 #' @param target A vector of target values
-#' @param return_table Logical. Whether to return the table of \code{prediction}
-#'   vs. \code{target.} Default is \code{FALSE}.
-#' @param dnn The row and column headers for the table returned by
-#'   \code{return_table}.
 #' @param positive The positive class for a 2-class setting. Default is
 #'   \code{NULL}, which will result in using the first level of \code{target}.
 #' @param prevalence Prevalence rate.  Default is \code{NULL}.
+#' @param return_table Logical. Whether to return the table of \code{prediction}
+#'   vs. \code{target.} Default is \code{FALSE}. Cannot have both
+#'   \code{return_table} and \code{longer} TRUE.
+#' @param dnn The row and column headers for the table returned by
+#' \code{return_table}.  Default is 'Predicted' for rows and 'Target' for
+#' columns.
+#' @param longer Transpose the output to long form.  Default is FALSE (requires
+#'   \code{tidyr 1.0}).  Cannot have both \code{return_table} and \code{longer}
+#'   TRUE.
 #' @param ... Other parameters, not currently used.
 #'
 #' @details This returns accuracy, agreement, and other statistics. See the
@@ -26,14 +31,15 @@
 #' @references Kuhn, M., & Johnson, K. (2013). Applied predictive modeling.
 #'
 #' @importFrom dplyr mutate everything %>%
+#' @importFrom utils packageVersion
 #'
 #' @examples
 #' library(confusionMatrix)
 #'
-#' p = c(0,1,1,0)
-#' o = c(0,1,1,1)
+#' p = c(0,1,1,0,0,1,0,1,1,1)
+#' o = c(0,1,1,1,0,1,0,1,0,1)
 #'
-#' confusion_matrix(p, o, return_table = TRUE)
+#' confusion_matrix(p, o, return_table = TRUE, positive = '1')
 #'
 #' p = sample(letters[1:4], 250, replace = TRUE, prob = 1:4)
 #' o = sample(letters[1:4], 250, replace = TRUE, prob = 1:4)
@@ -44,10 +50,11 @@
 confusion_matrix <- function(
   prediction,
   target,
-  return_table = FALSE,
-  dnn = c('Predicted', 'target'),
   positive = NULL,
   prevalence = NULL,
+  return_table = FALSE,
+  dnn = c('Predicted', 'Target'),
+  longer = FALSE,
   ...
 ) {
 
@@ -126,7 +133,7 @@ confusion_matrix <- function(
       dplyr::select(Positive, N, `N Positive`, `N Negative`, everything())
 
     result <- list(
-      `Accuracy` = result_accuracy,
+      Accuracy = result_accuracy,
       Other = result_statistics,
       `Association and Agreement` = result_agreement
     )
@@ -156,15 +163,68 @@ confusion_matrix <- function(
       dplyr::select(Class, N, everything())
 
     result <- list(
-      `Accuracy` = result_accuracy,
+      Accuracy = result_accuracy,
       Other = result_statistics,
       `Association and Agreement` = result_agreement
     )
   }
 
-  # if (return_table) result$`Frequency Table` = conf_mat
   if (return_table)
-    result$`Accuracy`$`Frequency Table` <- list(conf_mat)
+    if (longer) {
+      warning('Cannot have longer and return_table (table is not numeric). Removing table.')
+    } else {
+      result$Accuracy$`Frequency Table` <- list(conf_mat)
+    }
+
+
+  # Return result -----------------------------------------------------------
+
+  # Note, can remove version check after a while
+  test_tidyr = tryCatch(utils::packageVersion("tidyr"), error = function(c) "error")
+
+  test_tidyr_installed = inherits(test_tidyr, 'error')
+
+  if (!test_tidyr_installed)
+    tidyr_version = as.numeric(substr(test_tidyr, start = 1, stop = 1))
+
+  if (longer & (test_tidyr_installed | tidyr_version < 1)) {
+    message('Tidyr >= 1.0 not installed. longer argument ignored.')
+    longer = FALSE
+  }
+
+  if (longer) {
+    result$Accuracy = tidyr::pivot_longer(
+      result$Accuracy,
+      cols = everything(),
+      names_to = 'Statistic',
+      values_to = 'Value',
+    )
+
+    if (numLevels == 2) {
+      result$Other = tidyr::pivot_longer(
+        result$Other,
+        cols = -Positive,
+        names_to = 'Statistic',
+        values_to = 'Value',
+      )
+    }
+    else {
+      result$Other = tidyr::pivot_longer(
+        result$Other,
+        cols = -Class,
+        names_to = 'Statistic',
+        values_to = 'Value',
+      )
+    }
+
+
+    result$`Association and Agreement` = tidyr::pivot_longer(
+      result$`Association and Agreement`,
+      cols = everything(),
+      names_to = 'Statistic',
+      values_to = 'Value',
+    )
+  }
 
   result
 }

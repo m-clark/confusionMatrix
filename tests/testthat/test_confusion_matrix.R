@@ -97,6 +97,55 @@ test_that("confusion_matrix errors if positive class doesn't exist", {
 })
 
 
+
+
+# Test longer -------------------------------------------------------------
+
+# Need to update if statistics are added
+
+test_that("confusion_matrix returns longer tibble", {
+  cm <- confusion_matrix(p_2class, o_2class, positive = 'a', longer = TRUE)
+  expect_equal(
+    nrow(cm$Accuracy),
+    5
+  )
+  expect_equal(
+    nrow(cm$Other),
+    18
+  )
+  expect_equal(
+    nrow(cm$`Association and Agreement`),
+    6
+  )
+})
+
+test_that("confusion_matrix returns longer tibble", {
+  cm <- suppressWarnings(confusion_matrix(p_multi, o_multi, positive = 'a', longer = TRUE))
+
+  expect_equal(
+    nrow(cm$Other),
+    80
+  )
+  expect_equal(
+    dplyr::n_distinct(cm$Other$Class),
+    5
+  )
+})
+
+test_that("confusion_matrix warns if longer and return_table both TRUE", {
+
+  expect_warning(
+    confusion_matrix(
+      p_2class,
+      o_2class,
+      positive = 'a',
+      return_table = TRUE,
+      longer = TRUE
+    )
+  )
+})
+
+
 # # test_that("confusion_matrix can handle logical/character mix", {
 #   o_logical = c(FALSE, TRUE, TRUE, TRUE)
 #   p_char = c('a', 'a', 'b', 'b')

@@ -52,6 +52,17 @@ dplyr::glimpse(result$Other)
 dplyr::glimpse(result$`Association and Agreement`)
 ```
 
+```{r demo-longer}
+result = confusion_matrix(
+  prediction = p,
+  target = o,
+  longer = TRUE
+)
+
+result
+```
+
+
 ### Installation
 
 To install from GitHub the <span class="pack">devtools</span> package is required.

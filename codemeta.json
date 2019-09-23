@@ -1,0 +1,103 @@
+{
+  "@context": ["https://doi.org/10.5063/schema/codemeta-2.0", "http://schema.org"],
+  "@type": "SoftwareSourceCode",
+  "identifier": "confusionMatrix",
+  "description": "Given predictions and a target variable, provide numerous statistics from the resulting confusion matrix.",
+  "name": "confusionMatrix: Confusion Matrix",
+  "codeRepository": "https://github.com/m-clark/confusionMatrix",
+  "issueTracker": "https://github.com/m-clark/confusionMatrix/issues",
+  "license": "https://spdx.org/licenses/MIT",
+  "version": "0.3.1",
+  "programmingLanguage": {
+    "@type": "ComputerLanguage",
+    "name": "R",
+    "version": "3.6.1",
+    "url": "https://r-project.org"
+  },
+  "runtimePlatform": "R version 3.6.1 (2019-07-05)",
+  "author": [
+    {
+      "@type": "Person",
+      "givenName": "Michael",
+      "familyName": "Clark",
+      "email": "micl@umich.edu"
+    }
+  ],
+  "contributor": {},
+  "copyrightHolder": {},
+  "funder": {},
+  "maintainer": [
+    {
+      "@type": "Person",
+      "givenName": "Michael",
+      "familyName": "Clark",
+      "email": "micl@umich.edu"
+    }
+  ],
+  "softwareSuggestions": [
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "testthat",
+      "name": "testthat",
+      "version": ">= 2.1.0",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=testthat"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "covr",
+      "name": "covr",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=covr"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "tidyr",
+      "name": "tidyr",
+      "version": ">= 1.0.0",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=tidyr"
+    }
+  ],
+  "softwareRequirements": [
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "R",
+      "name": "R",
+      "version": ">= 3.5.0"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "dplyr",
+      "name": "dplyr",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=dplyr"
+    }
+  ],
+  "releaseNotes": "https://github.com/m-clark/confusionMatrix/blob/master/NEWS.md",
+  "readme": "https://github.com/m-clark/confusionMatrix/blob/master/README.md",
+  "fileSize": "20.204KB",
+  "contIntegration": ["https://travis-ci.org/m-clark/confusionMatrix", "https://ci.appveyor.com/project/m-clark/confusionMatrix", "https://codecov.io/gh/m-clark/confusionMatrix?branch=master"],
+  "developmentStatus": "https://www.tidyverse.org/lifecycle/#experimental",
+  "keywords": ["confusion-matrix", "sensitivity", "specificity", "positive-predictive-value", "negative-predictive-value", "precision-recall", "f1-score", "dice-coefficient", "true-positive-rate", "true-negative-rate", "false-positive-rate", "false-negative-rate", "balanced-accuracy", "false-discovery-rate", "false-omission-rate", "fallout"]
+}

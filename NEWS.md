@@ -1,3 +1,7 @@
+# confusionMatrix 0.3.1
+
+* Add ability to provide output in longer form 
+
 # confusionMatrix 0.3.0
 
 * Add various statistics, add documentation, cleanup code.

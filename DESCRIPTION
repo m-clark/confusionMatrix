@@ -1,7 +1,7 @@
 Package: confusionMatrix
 Type: Package
 Title: Confusion Matrix
-Version: 0.3.0
+Version: 0.3.1
 Authors@R: person("Michael", "Clark", role = c("aut", "cre"), email = "micl@umich.edu")
 Maintainer: Michael Clark <micl@umich.edu>
 Description: Given predictions and a target variable, provide numerous statistics from the resulting confusion matrix.

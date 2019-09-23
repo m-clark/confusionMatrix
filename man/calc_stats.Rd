@@ -25,7 +25,8 @@ Given a frequency table of predictions versus target values,
 }
 \details{
 Used within confusion_matrix to calculate various confusion matrix
-  metrics. Not really meant to be called directly by the user.
+  metrics. This is called by \code{confusion_matrix}, but if this is all you
+  want you can simply supply the table.
 
 Suppose a 2x2 table with notation
 
@@ -71,6 +72,9 @@ Different names are used for the same statistics.
   \item{False Negative Rate: Miss Rate, Type II error rate, β}{}
   \item{False Positive Rate: Fallout, Type I error rate, α}{}
 }
+
+This function is called by \code{confusion_matrix}, but if this is all you
+  want, you can simply supply the table to this function.
 }
 \examples{
 p = sample(letters[1:4], 250, replace = TRUE, prob = 1:4)

@@ -8,7 +8,8 @@
 #' @param positive Positive class
 #' @param ... Other, not currently used
 #' @details Used within confusion_matrix to calculate various confusion matrix
-#'   metrics. Not really meant to be called directly by the user.
+#'   metrics. This is called by \code{confusion_matrix}, but if this is all you
+#'   want you can simply supply the table.
 #'
 #' Suppose a 2x2 table with notation
 #'
@@ -53,7 +54,9 @@
 #'   \item{False Negative Rate: Miss Rate, Type II error rate, β}{}
 #'   \item{False Positive Rate: Fallout, Type I error rate, α}{}
 #' }
-
+#'
+#' This function is called by \code{confusion_matrix}, but if this is all you
+#'   want, you can simply supply the table to this function.
 #'
 #' @return A tibble with (at present) columns for sensitivity, specificity, PPV, NPV, F1 score, detection rate, detection prevalence, balanced accuracy, FDR, FOR, FPR, FNR.  For
 #'   > 2 classes, these statistics are provided for each class.

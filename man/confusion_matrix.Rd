@@ -36,7 +36,7 @@ Given a vector of predictions and target values, calculate
 }
 \details{
 This returns accuracy, agreement, and other statistics. See the
-  functions below to find out more. Originally inspired and based on the
+  functions below to find out more. Originally inspired by the
   \code{confusionMatrix} function from the \code{caret} package.
 }
 \examples{
@@ -54,8 +54,7 @@ confusion_matrix(p, o, return_table = TRUE)
 
 }
 \references{
-Kuhn, M., & Johnson, K. (2013). Applied predictive modeling. New
-  York: Springer.
+Kuhn, M., & Johnson, K. (2013). Applied predictive modeling.
 }
 \seealso{
 \code{\link[caret]{confusionMatrix}}  \code{\link{calc_accuracy}}

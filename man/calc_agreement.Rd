@@ -52,6 +52,9 @@ Suppose we want to compare two classifications summarized by the
   method (sometimes called the Youden's J index, though it predates Youden by
   66 years), and Jaccard index are calculated.  The first two are based on
   the approach in the \code{psych} package.
+
+  This function is called by \code{confusion_matrix}, but if this is all you
+  want, you can simply supply the table to this function.
 }
 \examples{
  ## no class correlations: both kappa and crand almost zero

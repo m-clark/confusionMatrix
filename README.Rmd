@@ -36,19 +36,20 @@ calculated from a single confusion matrix.
 ```{r demo}
 library(confusionMatrix)
 
-p = sample(letters[1:4], 250, replace = T, prob = 1:4)
-o = sample(letters[1:4], 250, replace = T, prob = 1:4)
+p = sample(letters[1:2], 250, replace = T, prob = 1:2)
+o = sample(letters[1:2], 250, replace = T, prob = 1:2)
 
 result = confusion_matrix(
   prediction = p,
-  observed = o,
+  target = o,
   return_table = TRUE
 )
 
 result
 
-dplyr::glimpse(result$`Accuracy and Agreement`)
+dplyr::glimpse(result$Accuracy)
 dplyr::glimpse(result$Other)
+dplyr::glimpse(result$`Association and Agreement`)
 ```
 
 ### Installation

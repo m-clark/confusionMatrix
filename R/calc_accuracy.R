@@ -4,9 +4,10 @@
 #'
 #' @param tabble A frequency table created with \code{\link{table}}
 #'
-#' @details Used within confusion_matrix to calculate accuracy, lower and upper
-#'   bounds, the guessing rate and p-value of the accuracy vs. the guessing
-#'   rate. Not really meant to be called by the user.
+#' @details Calculates accuracy, lower and upper bounds, the guessing rate and
+#'   p-value of the accuracy vs. the guessing rate. This function is called by
+#'   \code{confusion_matrix}, but if this is all you want, you can simply supply
+#'   the table to this function.
 #'
 #' @return A tibble with the corresponding statistics
 #'

@@ -14,7 +14,7 @@
 #' @param ... Other parameters, not currently used.
 #'
 #' @details This returns accuracy, agreement, and other statistics. See the
-#'   functions below to find out more. Originally inspired and based on the
+#'   functions below to find out more. Originally inspired by the
 #'   \code{confusionMatrix} function from the \code{caret} package.
 #'
 #' @seealso \code{\link[caret]{confusionMatrix}}  \code{\link{calc_accuracy}}
@@ -23,8 +23,7 @@
 #' @return A list of tibble(s) with the associated statistics and possibly the
 #'   frequency table as list column of the first element.
 #'
-#' @references Kuhn, M., & Johnson, K. (2013). Applied predictive modeling. New
-#'   York: Springer.
+#' @references Kuhn, M., & Johnson, K. (2013). Applied predictive modeling.
 #'
 #' @importFrom dplyr mutate everything %>%
 #'
@@ -127,7 +126,7 @@ confusion_matrix <- function(
       dplyr::select(Positive, N, `N Positive`, `N Negative`, everything())
 
     result <- list(
-      `Accuracy and Agreement` = result_accuracy,
+      `Accuracy` = result_accuracy,
       Other = result_statistics,
       `Association and Agreement` = result_agreement
     )
@@ -157,7 +156,7 @@ confusion_matrix <- function(
       dplyr::select(Class, N, everything())
 
     result <- list(
-      `Accuracy and Agreement` = result_accuracy,
+      `Accuracy` = result_accuracy,
       Other = result_statistics,
       `Association and Agreement` = result_agreement
     )
@@ -165,7 +164,7 @@ confusion_matrix <- function(
 
   # if (return_table) result$`Frequency Table` = conf_mat
   if (return_table)
-    result$`Accuracy and Agreement`$`Frequency Table` <- list(conf_mat)
+    result$`Accuracy`$`Frequency Table` <- list(conf_mat)
 
   result
 }

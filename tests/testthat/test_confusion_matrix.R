@@ -78,7 +78,7 @@ test_that("confusion_matrix can handle logical/numeric mix", {
 
 test_that("confusion_matrix returns table", {
   tab = confusion_matrix(p_2class, o_2class, return_table = TRUE)
-  tab = tab$`Accuracy and Agreement`$`Frequency Table`
+  tab = tab$`Accuracy`$`Frequency Table`
 
   expect_is(tab[[1]], 'table')
 })

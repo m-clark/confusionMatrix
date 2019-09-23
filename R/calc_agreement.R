@@ -39,6 +39,9 @@
 #'   66 years), and Jaccard index are calculated.  The first two are based on
 #'   the approach in the \code{psych} package.
 #'
+#'   This function is called by \code{confusion_matrix}, but if this is all you
+#'   want, you can simply supply the table to this function.
+#'
 #' @return A tibble with:
 #' \item{kappa}{\code{diag} corrected for agreement by chance.}
 #' \item{crand}{Rand index corrected for agreement by chance.}

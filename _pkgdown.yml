@@ -1,0 +1,67 @@
+title: visibly!
+title-img: logo.png
+
+authors:
+  Michael Clark:
+    href: https://m-clark.github.io
+    html: <img src="man/figures/mc_logo.png" width=10% style='display:inline'/>
+
+template:
+  params:
+    highlight: pygments
+    #bootswatch: sandstone
+    templates_path: inst/pkgdown
+
+highlight: pygments
+
+
+home:
+  #strip_header: true
+  links:
+  - text: Docs on Stats, R, and more
+    href: http://m-clark.github.io
+
+reference:
+  - title: "Confusion Matrix"
+    desc: >
+      Primary function.
+    contents:
+      - confusion_matrix
+
+  - title: "Specific Statistics"
+    desc: >
+      Calculate various statistics from a confusion matrix.
+    contents:
+      - calc_accuracy
+      - calc_stats
+      - calc_agreement
+
+
+figures:
+  dev: png
+  dpi: 96
+  dev.args: []
+  fig.ext: png
+  fig.width: 7.2916667
+  fig.height: ~
+  fig.retina: 2
+  fig.asp: 1.618
+
+navbar:
+  title: "whatever bc pkgdown will ignore it"
+  type: ~
+  left:
+    - text: "Reference"
+      href: "reference/index.html"
+    - text: "News"
+      href: "news/index.html"
+    - text: Articles
+      menu:
+      - text: Demo
+        href: articles/Demo.html
+  right:
+    - icon: fa-github-alt
+      href: https://github.com/m-clark
+    - icon: fa-empire
+      href: https://m-clark.github.io
+

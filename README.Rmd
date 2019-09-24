@@ -22,12 +22,13 @@ knitr::opts_chunk$set(
 
  <!-- badges: end -->
  
+<span class="" style = "height: 3em"></span>
 
 # confusionMatrix
 
 <br>
 
-Given predictions and a target variable, provide numerous statistics from the resulting confusion matrix. The goal is to provide a wealth of summary statistics that can be calculated from a single confusion matrix, and return **tidy** results with as few dependencies as possible.
+Given predictions and a target variable, provide numerous statistics from the resulting confusion matrix. The goal is to provide a wealth of summary statistics that can be calculated from a single confusion matrix, and return <span class="emph" style = "">**tidy**</span> results with as few dependencies as possible.
 
 
 

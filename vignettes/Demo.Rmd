@@ -1,0 +1,97 @@
+---
+title: "confusionMatrix"
+subtitle: A demonstration
+author: "Michael Clark"
+date: <span style="font-style:normal;font-family:'Open Sans'">`r Sys.Date()`</span>
+output:
+  html_vignette:
+    toc: true
+    toc_depth: 3
+    df_print: kable
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  fig.path = "man/figures/",
+  comment = NA
+)
+```
+
+(IN PROGRESS)
+
+## Basic Usage
+
+
+
+### Two class
+
+```{r data-setup}
+set.seed(1234)
+
+N = 2500
+x = rnorm(N)
+lp = 0 + .5*x
+y = rbinom(N, size = 1, prob = plogis(lp))
+
+model = glm(y ~ x, family = binomial)
+predict_class = predict(model) > 0
+```
+
+
+```{r basic}
+library(confusionMatrix)
+confusion_matrix(predict_class, y)
+```
+
+### Multi-class
+
+```{r multi-class}
+p_multi = sample(letters[1:4], 250, replace = TRUE, prob = 1:4)
+o_multi = sample(letters[1:4], 250, replace = TRUE, prob = 1:4)
+
+confusion_matrix(p_multi, o_multi)
+```
+
+
+
+## Available Statistics
+
+#### Accuracy
+- Accuracy
+- Lower and Upper Limits
+- Guessing rate
+- Test of accuracy vs. the guessing rate
+
+#### Additional Statistics
+- Relative class sizes
+- Sensitivity/Recall/True Positive Rate
+- Specificity/True Negative Rate
+- Positive Predictive Value/Precision
+- Negativ Predictive Value
+- F1 score/Dice coefficient
+- Prevalence
+- Detection Rate
+- Detection Prevalence
+- Balanced Accuracy
+- False Discovery Rate
+- False Omission Rate
+- False Positive Rate/Fallout
+- False Negative Rate
+- D'
+- Area Under a ROC
+
+#### Association and Agreement
+
+- Kappa
+- Adjusted Rand
+- Yule
+- Phi
+- Peirce/Youden J       
+- Jaccard   
+
+
+## Long vs. Wide

@@ -22,7 +22,6 @@ knitr::opts_chunk$set(
 
  <!-- badges: end -->
  
-<span class="" style = "height: 3em"></span>
 
 # confusionMatrix
 

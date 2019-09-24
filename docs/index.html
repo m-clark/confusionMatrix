@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Confusion Matrix • visibly!</title>
+<title>Confusion Matrix • confusionMatrix</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
@@ -31,7 +31,7 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="index.html">visibly!</a>
+        <a class="navbar-link" href="index.html">confusionMatrix</a>
         <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1</span>
       </span>
     </div>
@@ -85,108 +85,107 @@
 
 
 <!-- badges: end -->
-<p><span style="height: 3em"></span></p>
 <div id="confusionmatrix" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#confusionmatrix" class="anchor"></a>confusionMatrix</h1></div>
 <p><br></p>
 <p>Given predictions and a target variable, provide numerous statistics from the resulting confusion matrix. The goal is to provide a wealth of summary statistics that can be calculated from a single confusion matrix, and return <span class="emph" style=""><strong>tidy</strong></span> results with as few dependencies as possible.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(confusionMatrix)</a>
-<a class="sourceLine" id="cb1-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb1-3" data-line-number="3">p =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/sample.html">sample</a></span>(letters[<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>], <span class="dv">250</span>, <span class="dt">replace =</span> T, <span class="dt">prob =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb1-4" data-line-number="4">o =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/sample.html">sample</a></span>(letters[<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>], <span class="dv">250</span>, <span class="dt">replace =</span> T, <span class="dt">prob =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb1-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb1-6" data-line-number="6">result =<span class="st"> </span><span class="kw"><a href="reference/confusion_matrix.html">confusion_matrix</a></span>(</a>
-<a class="sourceLine" id="cb1-7" data-line-number="7">  <span class="dt">prediction =</span> p,</a>
-<a class="sourceLine" id="cb1-8" data-line-number="8">  <span class="dt">target =</span> o,</a>
-<a class="sourceLine" id="cb1-9" data-line-number="9">  <span class="dt">return_table =</span> <span class="ot">TRUE</span></a>
-<a class="sourceLine" id="cb1-10" data-line-number="10">)</a>
-<a class="sourceLine" id="cb1-11" data-line-number="11"></a>
-<a class="sourceLine" id="cb1-12" data-line-number="12">result</a></code></pre></div>
-<div class="sourceCode" id="cb2"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="op">$</span>Accuracy</a>
-<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="co"># A tibble: 1 x 6</span></a>
-<a class="sourceLine" id="cb2-3" data-line-number="3">  Accuracy <span class="st">`</span><span class="dt">Accuracy LL</span><span class="st">`</span> <span class="st">`</span><span class="dt">Accuracy UL</span><span class="st">`</span> <span class="st">`</span><span class="dt">Accuracy Guess… </span><span class="st">`</span>Accuracy P<span class="op">-</span>val…</a>
-<a class="sourceLine" id="cb2-4" data-line-number="4">     <span class="op">&lt;</span>dbl<span class="op">&gt;</span><span class="st">         </span><span class="er">&lt;</span>dbl<span class="op">&gt;</span><span class="st">         </span><span class="er">&lt;</span>dbl<span class="op">&gt;</span><span class="st">            </span><span class="er">&lt;</span>dbl<span class="op">&gt;</span><span class="st">            </span><span class="er">&lt;</span>dbl<span class="op">&gt;</span></a>
-<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="dv">1</span>     <span class="fl">0.54</span>         <span class="fl">0.476</span>         <span class="fl">0.603</span>            <span class="fl">0.592</span>            <span class="fl">0.958</span></a>
-<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="co"># … with 1 more variable: `Frequency Table` &lt;list&gt;</span></a>
-<a class="sourceLine" id="cb2-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb2-8" data-line-number="8"><span class="op">$</span>Other</a>
-<a class="sourceLine" id="cb2-9" data-line-number="9"><span class="co"># A tibble: 1 x 19</span></a>
-<a class="sourceLine" id="cb2-10" data-line-number="10">  Positive     N <span class="st">`</span><span class="dt">N Positive</span><span class="st">`</span> <span class="st">`</span><span class="dt">N Negative</span><span class="st">`</span> <span class="st">`</span><span class="dt">Sensitivity/Re…</span></a>
-<a class="sourceLine" id="cb2-11" data-line-number="11"><span class="dt">  &lt;chr&gt;    &lt;int&gt;        &lt;int&gt;        &lt;int&gt;            &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb2-12" data-line-number="12"><span class="dt">1 a          250          102          148            0.373</span></a>
-<a class="sourceLine" id="cb2-13" data-line-number="13"><span class="dt"># … with 14 more variables: </span><span class="st">`</span>Specificity<span class="op">/</span>TNR<span class="st">`</span><span class="dt"> &lt;dbl&gt;,</span></a>
-<a class="sourceLine" id="cb2-14" data-line-number="14"><span class="dt">#   </span><span class="st">`</span>PPV<span class="op">/</span>Precision<span class="st">`</span><span class="dt"> &lt;dbl&gt;, NPV &lt;dbl&gt;, </span><span class="st">`</span>F1<span class="op">/</span>Dice<span class="st">`</span><span class="dt"> &lt;dbl&gt;, Prevalence &lt;dbl&gt;,</span></a>
-<a class="sourceLine" id="cb2-15" data-line-number="15"><span class="dt">#   </span><span class="st">`</span>Detection Rate<span class="st">`</span><span class="dt"> &lt;dbl&gt;, </span><span class="st">`</span>Detection Prevalence<span class="st">`</span><span class="dt"> &lt;dbl&gt;, </span><span class="st">`</span>Balanced</a>
-<a class="sourceLine" id="cb2-16" data-line-number="16"><span class="co">#   Accuracy` &lt;dbl&gt;, FDR &lt;dbl&gt;, FOR &lt;dbl&gt;, `FPR/Fallout` &lt;dbl&gt;, FNR &lt;dbl&gt;,</span></a>
-<a class="sourceLine" id="cb2-17" data-line-number="17"><span class="co">#   `D Prime` &lt;dbl&gt;, AUC &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb2-18" data-line-number="18"></a>
-<a class="sourceLine" id="cb2-19" data-line-number="19"><span class="op">$</span><span class="st">`</span><span class="dt">Association and Agreement</span><span class="st">`</span></a>
-<a class="sourceLine" id="cb2-20" data-line-number="20"><span class="co"># A tibble: 1 x 6</span></a>
-<a class="sourceLine" id="cb2-21" data-line-number="21">   Kappa <span class="st">`</span><span class="dt">Adjusted Rand</span><span class="st">`</span>   Yule    Phi Peirce Jaccard</a>
-<a class="sourceLine" id="cb2-22" data-line-number="22">   <span class="op">&lt;</span>dbl<span class="op">&gt;</span><span class="st">           </span><span class="er">&lt;</span>dbl<span class="op">&gt;</span><span class="st">  </span><span class="er">&lt;</span>dbl<span class="op">&gt;</span><span class="st">  </span><span class="er">&lt;</span>dbl<span class="op">&gt;</span><span class="st">  </span><span class="er">&lt;</span>dbl<span class="op">&gt;</span><span class="st">   </span><span class="er">&lt;</span>dbl<span class="op">&gt;</span></a>
-<a class="sourceLine" id="cb2-23" data-line-number="23"><span class="dv">1</span> <span class="fl">0.0285</span>       <span class="fl">0.0000338</span> <span class="fl">0.0607</span> <span class="fl">0.0287</span>  <span class="fl">0.355</span>   <span class="fl">0.458</span></a></code></pre></div>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">result<span class="op">$</span>Accuracy<span class="op">$</span><span class="st">`</span><span class="dt">Frequency Table</span><span class="st">`</span></a></code></pre></div>
-<div class="sourceCode" id="cb4"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">[[<span class="dv">1</span>]]</a>
-<a class="sourceLine" id="cb4-2" data-line-number="2">         Target</a>
-<a class="sourceLine" id="cb4-3" data-line-number="3">Predicted  a  b</a>
-<a class="sourceLine" id="cb4-4" data-line-number="4">        a <span class="dv">38</span> <span class="dv">51</span></a>
-<a class="sourceLine" id="cb4-5" data-line-number="5">        b <span class="dv">64</span> <span class="dv">97</span></a></code></pre></div>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">result =<span class="st"> </span><span class="kw"><a href="reference/confusion_matrix.html">confusion_matrix</a></span>(</a>
-<a class="sourceLine" id="cb5-2" data-line-number="2">  <span class="dt">prediction =</span> p,</a>
-<a class="sourceLine" id="cb5-3" data-line-number="3">  <span class="dt">target =</span> o,</a>
-<a class="sourceLine" id="cb5-4" data-line-number="4">  <span class="dt">longer =</span> <span class="ot">TRUE</span></a>
-<a class="sourceLine" id="cb5-5" data-line-number="5">)</a>
-<a class="sourceLine" id="cb5-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb5-7" data-line-number="7">result</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(confusionMatrix)</a>
+<a class="sourceLine" id="cb1-2" title="2"></a>
+<a class="sourceLine" id="cb1-3" title="3">p =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/sample.html">sample</a></span>(letters[<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>], <span class="dv">250</span>, <span class="dt">replace =</span> T, <span class="dt">prob =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb1-4" title="4">o =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/sample.html">sample</a></span>(letters[<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>], <span class="dv">250</span>, <span class="dt">replace =</span> T, <span class="dt">prob =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb1-5" title="5"></a>
+<a class="sourceLine" id="cb1-6" title="6">result =<span class="st"> </span><span class="kw"><a href="reference/confusion_matrix.html">confusion_matrix</a></span>(</a>
+<a class="sourceLine" id="cb1-7" title="7">  <span class="dt">prediction =</span> p,</a>
+<a class="sourceLine" id="cb1-8" title="8">  <span class="dt">target =</span> o,</a>
+<a class="sourceLine" id="cb1-9" title="9">  <span class="dt">return_table =</span> <span class="ot">TRUE</span></a>
+<a class="sourceLine" id="cb1-10" title="10">)</a>
+<a class="sourceLine" id="cb1-11" title="11"></a>
+<a class="sourceLine" id="cb1-12" title="12">result</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="op">$</span>Accuracy</a>
+<a class="sourceLine" id="cb2-2" title="2"><span class="co"># A tibble: 1 x 6</span></a>
+<a class="sourceLine" id="cb2-3" title="3">  Accuracy <span class="st">`</span><span class="dt">Accuracy LL</span><span class="st">`</span> <span class="st">`</span><span class="dt">Accuracy UL</span><span class="st">`</span> <span class="st">`</span><span class="dt">Accuracy Guess~ </span><span class="st">`</span>Accuracy P<span class="op">-</span>val<span class="op">~</span></a>
+<a class="sourceLine" id="cb2-4" title="4"><span class="st">     </span><span class="er">&lt;</span>dbl<span class="op">&gt;</span><span class="st">         </span><span class="er">&lt;</span>dbl<span class="op">&gt;</span><span class="st">         </span><span class="er">&lt;</span>dbl<span class="op">&gt;</span><span class="st">            </span><span class="er">&lt;</span>dbl<span class="op">&gt;</span><span class="st">            </span><span class="er">&lt;</span>dbl<span class="op">&gt;</span></a>
+<a class="sourceLine" id="cb2-5" title="5"><span class="dv">1</span>    <span class="fl">0.524</span>         <span class="fl">0.460</span>         <span class="fl">0.587</span>             <span class="fl">0.64</span>            <span class="fl">1.000</span></a>
+<a class="sourceLine" id="cb2-6" title="6"><span class="co"># ... with 1 more variable: `Frequency Table` &lt;list&gt;</span></a>
+<a class="sourceLine" id="cb2-7" title="7"></a>
+<a class="sourceLine" id="cb2-8" title="8"><span class="op">$</span>Other</a>
+<a class="sourceLine" id="cb2-9" title="9"><span class="co"># A tibble: 1 x 19</span></a>
+<a class="sourceLine" id="cb2-10" title="10">  Positive     N <span class="st">`</span><span class="dt">N Positive</span><span class="st">`</span> <span class="st">`</span><span class="dt">N Negative</span><span class="st">`</span> <span class="st">`</span><span class="dt">Sensitivity/Re~</span></a>
+<a class="sourceLine" id="cb2-11" title="11"><span class="dt">  &lt;chr&gt;    &lt;int&gt;        &lt;int&gt;        &lt;int&gt;            &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb2-12" title="12"><span class="dt">1 a          250           90          160            0.344</span></a>
+<a class="sourceLine" id="cb2-13" title="13"><span class="dt"># ... with 14 more variables: </span><span class="st">`</span>Specificity<span class="op">/</span>TNR<span class="st">`</span><span class="dt"> &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb2-14" title="14"><span class="dt">#   </span><span class="st">`</span>PPV<span class="op">/</span>Precision<span class="st">`</span><span class="dt"> &lt;dbl&gt;, NPV &lt;dbl&gt;, </span><span class="st">`</span>F1<span class="op">/</span>Dice<span class="st">`</span><span class="dt"> &lt;dbl&gt;, Prevalence &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb2-15" title="15"><span class="dt">#   </span><span class="st">`</span>Detection Rate<span class="st">`</span><span class="dt"> &lt;dbl&gt;, </span><span class="st">`</span>Detection Prevalence<span class="st">`</span><span class="dt"> &lt;dbl&gt;, </span><span class="st">`</span>Balanced</a>
+<a class="sourceLine" id="cb2-16" title="16"><span class="co">#   Accuracy` &lt;dbl&gt;, FDR &lt;dbl&gt;, FOR &lt;dbl&gt;, `FPR/Fallout` &lt;dbl&gt;, FNR &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb2-17" title="17"><span class="co">#   `D Prime` &lt;dbl&gt;, AUC &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb2-18" title="18"></a>
+<a class="sourceLine" id="cb2-19" title="19"><span class="op">$</span><span class="st">`</span><span class="dt">Association and Agreement</span><span class="st">`</span></a>
+<a class="sourceLine" id="cb2-20" title="20"><span class="co"># A tibble: 1 x 6</span></a>
+<a class="sourceLine" id="cb2-21" title="21">    Kappa <span class="st">`</span><span class="dt">Adjusted Rand</span><span class="st">`</span>    Yule     Phi Peirce Jaccard</a>
+<a class="sourceLine" id="cb2-22" title="22">    <span class="op">&lt;</span>dbl<span class="op">&gt;</span><span class="st">           </span><span class="er">&lt;</span>dbl<span class="op">&gt;</span><span class="st">   </span><span class="er">&lt;</span>dbl<span class="op">&gt;</span><span class="st">   </span><span class="er">&lt;</span>dbl<span class="op">&gt;</span><span class="st">  </span><span class="er">&lt;</span>dbl<span class="op">&gt;</span><span class="st">   </span><span class="er">&lt;</span>dbl<span class="op">&gt;</span></a>
+<a class="sourceLine" id="cb2-23" title="23"><span class="dv">1</span> <span class="fl">-0.0305</span>        <span class="fl">-0.00699</span> <span class="fl">-0.0663</span> <span class="fl">-0.0305</span>  <span class="fl">0.364</span>   <span class="fl">0.457</span></a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1">result<span class="op">$</span>Accuracy<span class="op">$</span><span class="st">`</span><span class="dt">Frequency Table</span><span class="st">`</span></a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1">[[<span class="dv">1</span>]]</a>
+<a class="sourceLine" id="cb4-2" title="2">         Target</a>
+<a class="sourceLine" id="cb4-3" title="3">Predicted   a   b</a>
+<a class="sourceLine" id="cb4-4" title="4">        a  <span class="dv">31</span>  <span class="dv">60</span></a>
+<a class="sourceLine" id="cb4-5" title="5">        b  <span class="dv">59</span> <span class="dv">100</span></a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1">result =<span class="st"> </span><span class="kw"><a href="reference/confusion_matrix.html">confusion_matrix</a></span>(</a>
+<a class="sourceLine" id="cb5-2" title="2">  <span class="dt">prediction =</span> p,</a>
+<a class="sourceLine" id="cb5-3" title="3">  <span class="dt">target =</span> o,</a>
+<a class="sourceLine" id="cb5-4" title="4">  <span class="dt">longer =</span> <span class="ot">TRUE</span></a>
+<a class="sourceLine" id="cb5-5" title="5">)</a>
+<a class="sourceLine" id="cb5-6" title="6"></a>
+<a class="sourceLine" id="cb5-7" title="7">result</a></code></pre></div>
 <pre><code>$Accuracy
 # A tibble: 5 x 2
   Statistic         Value
   &lt;chr&gt;             &lt;dbl&gt;
-1 Accuracy          0.54 
-2 Accuracy LL       0.476
-3 Accuracy UL       0.603
-4 Accuracy Guessing 0.592
-5 Accuracy P-value  0.958
+1 Accuracy          0.524
+2 Accuracy LL       0.460
+3 Accuracy UL       0.587
+4 Accuracy Guessing 0.64 
+5 Accuracy P-value  1.000
 
 $Other
 # A tibble: 18 x 3
    Positive Statistic                 Value
    &lt;chr&gt;    &lt;chr&gt;                     &lt;dbl&gt;
  1 a        N                      250     
- 2 a        N Positive             102     
- 3 a        N Negative             148     
- 4 a        Sensitivity/Recall/TPR   0.373 
- 5 a        Specificity/TNR          0.655 
- 6 a        PPV/Precision            0.427 
- 7 a        NPV                      0.602 
- 8 a        F1/Dice                  0.398 
- 9 a        Prevalence               0.408 
-10 a        Detection Rate           0.152 
-11 a        Detection Prevalence     0.356 
-12 a        Balanced Accuracy        0.514 
-13 a        FDR                      0.573 
-14 a        FOR                      0.398 
-15 a        FPR/Fallout              0.345 
-16 a        FNR                      0.627 
-17 a        D Prime                  0.0748
-18 a        AUC                      0.521 
+ 2 a        N Positive              90     
+ 3 a        N Negative             160     
+ 4 a        Sensitivity/Recall/TPR   0.344 
+ 5 a        Specificity/TNR          0.625 
+ 6 a        PPV/Precision            0.341 
+ 7 a        NPV                      0.629 
+ 8 a        F1/Dice                  0.343 
+ 9 a        Prevalence               0.36  
+10 a        Detection Rate           0.124 
+11 a        Detection Prevalence     0.364 
+12 a        Balanced Accuracy        0.485 
+13 a        FDR                      0.659 
+14 a        FOR                      0.371 
+15 a        FPR/Fallout              0.375 
+16 a        FNR                      0.656 
+17 a        D Prime                 -0.0817
+18 a        AUC                      0.523 
 
 $`Association and Agreement`
 # A tibble: 6 x 2
-  Statistic         Value
-  &lt;chr&gt;             &lt;dbl&gt;
-1 Kappa         0.0285   
-2 Adjusted Rand 0.0000338
-3 Yule          0.0607   
-4 Phi           0.0287   
-5 Peirce        0.355    
-6 Jaccard       0.458    </code></pre>
+  Statistic        Value
+  &lt;chr&gt;            &lt;dbl&gt;
+1 Kappa         -0.0305 
+2 Adjusted Rand -0.00699
+3 Yule          -0.0663 
+4 Phi           -0.0305 
+5 Peirce         0.364  
+6 Jaccard        0.457  </code></pre>
 <div id="installation" class="section level3">
 <h3 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h3>
 <p>To install from GitHub the <span class="pack">devtools</span> package is required.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">devtools<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/devtools/man/remote-reexports.html">install_github</a></span>(<span class="st">'m-clark/confusionMatrix'</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1">devtools<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/devtools/man/remote-reexports.html">install_github</a></span>(<span class="st">'m-clark/confusionMatrix'</span>)</a></code></pre></div>
 </div>
 </div>
 

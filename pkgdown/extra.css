@@ -538,3 +538,9 @@ footer .theme-by {
 .fl, .dv {
  color: #23527c;
 }
+
+
+/* move headers down for site navbar */
+.contents .page-header {
+    margin-top: calc(60px + 1em);
+}

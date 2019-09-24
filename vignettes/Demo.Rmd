@@ -1,12 +1,12 @@
 ---
-title: "confusionMatrix"
-subtitle: A demonstration
+title: "A demonstration"
+# subtitle: 
 author: "Michael Clark"
 date: <span style="font-style:normal;font-family:'Open Sans'">`r Sys.Date()`</span>
 output:
   html_vignette:
     toc: true
-    toc_depth: 3
+    toc_depth: 2
     df_print: kable
 vignette: >
   %\VignetteIndexEntry{Vignette Title}
@@ -21,7 +21,6 @@ knitr::opts_chunk$set(
 )
 ```
 
-(IN PROGRESS)
 
 ## Basic Usage
 
@@ -49,6 +48,8 @@ confusion_matrix(predict_class, y)
 
 ### Multi-class
 
+Works for the multi-class setting too, but not all statistics are applicable/available.  Note that the 'Other' statistics are provided for each class, as well as averaged.
+
 ```{r multi-class}
 p_multi = sample(letters[1:4], 250, replace = TRUE, prob = 1:4)
 o_multi = sample(letters[1:4], 250, replace = TRUE, prob = 1:4)
@@ -61,17 +62,19 @@ confusion_matrix(p_multi, o_multi)
 ## Available Statistics
 
 #### Accuracy
+
 - Accuracy
 - Lower and Upper Limits
 - Guessing rate
 - Test of accuracy vs. the guessing rate
 
 #### Additional Statistics
+
 - Relative class sizes
 - Sensitivity/Recall/True Positive Rate
 - Specificity/True Negative Rate
 - Positive Predictive Value/Precision
-- Negativ Predictive Value
+- Negative Predictive Value
 - F1 score/Dice coefficient
 - Prevalence
 - Detection Rate
@@ -95,3 +98,22 @@ confusion_matrix(p_multi, o_multi)
 
 
 ## Long vs. Wide
+
+
+In wide format, you have a simple way to pluck any particular statistic.
+
+```{r wide}
+cm = confusion_matrix(predict_class, y)
+
+cm[['Other']][['N']]
+cm[['Association and Agreement']][['Yule']]
+```
+
+However, if you want to present a lot of statistics, a longer format might be more ideal.
+
+```{r longer}
+confusion_matrix(predict_class, y, longer = TRUE)
+```
+
+Either way, the tibble output will work nicely with various packages for formatting tables.
+

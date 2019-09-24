@@ -29,15 +29,38 @@ test_that("confusion_matrix works", {
 })
 
 
+# Errors on wrong inputs --------------------------------------------------
+
+test_that("confusion_matrix errors with wrong input: positive", {
+  expect_error(confusion_matrix(p_2class, o_2class, positive = 1))
+})
+
+test_that("confusion_matrix errors with wrong input: prevalence", {
+  expect_error(confusion_matrix(p_2class, o_2class, prevalence = 2))
+})
+
+test_that("confusion_matrix errors with wrong input: dnn", {
+  expect_error(confusion_matrix(p_2class, o_2class, dnn = NULL))
+})
+
+test_that("confusion_matrix errors with wrong input: dnn", {
+  expect_error(confusion_matrix(p_2class, o_2class, dnn = c('a', 'b', 'c')))
+})
+
+test_that("confusion_matrix errors with wrong input: return_table", {
+  expect_error(confusion_matrix(p_2class, o_2class, return_table = 'Yes'))
+})
+
+test_that("confusion_matrix errors with wrong input: longer", {
+  expect_error(confusion_matrix(p_2class, o_2class, longer = 'Yes'))
+})
+
+
 # dealing with positive argument ------------------------------------------
 
 test_that("confusion_matrix takes positive argument", {
   cm = suppressWarnings(confusion_matrix(p_simple, o_simple, positive = '0'))
   expect_identical(cm$Other$`Sensitivity/Recall/TPR`, 1)
-})
-
-test_that("confusion_matrix errors with wrong input: positive", {
-  expect_error(confusion_matrix(p_2class, o_2class, positive = 1))
 })
 
 

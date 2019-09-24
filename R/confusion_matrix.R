@@ -60,19 +60,37 @@ confusion_matrix <- function(
 
   # Initial Checks ----------------------------------------------------------
 
+
+  # input checks
+  if (!is.character(positive) & !is.null(positive))
+    stop("Positive argument must be character")
+
+  if (!is.null(prevalence) &&
+      (prevalence < 0 | prevalence > 1 | !is.numeric(prevalence)))
+    stop('Prevalence should be a value between 0 and 1')
+
+  if (!is.character(dnn) | length(dnn) != 2)
+    stop('dnn should be a character vector of length 2')
+
+  if (!is.logical(return_table))
+    stop('return_table should be TRUE or FALSE')
+
+  if (!is.logical(longer))
+    stop('longer should be TRUE or FALSE')
+
+
+  # other checks
+
   class_pred <- class(prediction)
   class_obs  <- class(target)
-
-  if (class_pred != class_obs) {
-    # put trycatch here to see if coercible?
-  }
 
   init <- data.frame(prediction, target) %>%
     dplyr::mutate_if(is.logical, as.numeric) %>%
     dplyr::mutate_all(as.factor)
 
-  if (!is.character(positive) & !is.null(positive))
-    stop("positive argument must be character")
+  if (class_pred != class_obs) {
+    # put trycatch here to see if coercible?
+  }
 
   if (any(levels(init$target) != levels(init$prediction))) {
     warning(

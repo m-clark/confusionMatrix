@@ -15,11 +15,21 @@
 # psych_phi_2class = psych::phi(table(y, predict_class)[2:1,2:1])
 # psych_yule_2class = psych::Yule(table(y, predict_class)[2:1,2:1])
 # e1071_rand_2class = e1071::classAgreement(table(predict_class, y))
-
+#
+# # multiclass
+#
+# caret_multiclass = caret::confusionMatrix(
+#   factor(sample(letters[1:4], 250, replace = TRUE, prob = 1:4)),
+#   factor(sample(letters[1:4], 250, replace = TRUE, prob = 1:4))
+# )
+#
+#
+#
 # save(
 #   predict_class,
 #   y,
 #   caret_stats,
+#   caret_multiclass,
 #   ys_auc,
 #   psych_auc,
 #   psych_kappa_2class,

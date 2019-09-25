@@ -3,6 +3,7 @@ context('test calc_stats')
 
 
 # Setup -------------------------------------------------------------------
+set.seed(1234)
 
 p = c(0, 1, 1, 0)
 o = c(0, 1, 1, 1)
@@ -94,5 +95,54 @@ test_that("confusion_matrix returns correct results for AUC d prime", {
 
   # dprime
   expect_lt(abs(tab$`D Prime` - psych_auc$d.prime), 1e-3)
+})
+
+# test multiclass
+test_that("confusion_matrix returns correct results for additional stats", {
+
+  # Class a
+  tab = suppressWarnings(calc_stats(caret_multiclass$table, positive = 'a'))
+
+  expect_lt(abs(tab$`Sensitivity/Recall/TPR` -
+                  caret_multiclass$byClass['Class: a', 'Sensitivity']), 1e-3)
+  expect_lt(abs(tab$`Specificity/TNR` -
+                  caret_multiclass$byClass['Class: a', 'Specificity']), 1e-3)
+  expect_lt(abs(tab$`PPV/Precision` -
+                  caret_multiclass$byClass['Class: a', 'Pos Pred Value']), 1e-3)
+  expect_lt(abs(tab$NPV -
+                  caret_multiclass$byClass['Class: a', 'Neg Pred Value']), 1e-3)
+  # in my formula 1/Inf = 0, while caret returns NaN
+  # expect_lt(abs(tab$`F1/Dice` -
+  #                 caret_multiclass$byClass['Class: a', 'F1']), 1e-3)
+  expect_lt(abs(tab$Prevalence -
+                  caret_multiclass$byClass['Class: a', 'Prevalence']), 1e-3)
+  expect_lt(abs(tab$`Detection Rate` -
+                  caret_multiclass$byClass['Class: a', 'Detection Rate']), 1e-3)
+  expect_lt(abs(tab$`Detection Prevalence` -
+                  caret_multiclass$byClass['Class: a', 'Detection Prevalence']), 1e-3)
+  expect_lt(abs(tab$`Balanced Accuracy` -
+                  caret_multiclass$byClass['Class: a', 'Balanced Accuracy']), 1e-3)
+
+  # Class d
+  tab = calc_stats(caret_multiclass$table, positive = 'd')
+
+  expect_lt(abs(tab$`Sensitivity/Recall/TPR` -
+                  caret_multiclass$byClass['Class: d', 'Sensitivity']), 1e-3)
+  expect_lt(abs(tab$`Specificity/TNR` -
+                  caret_multiclass$byClass['Class: d', 'Specificity']), 1e-3)
+  expect_lt(abs(tab$`PPV/Precision` -
+                  caret_multiclass$byClass['Class: d', 'Pos Pred Value']), 1e-3)
+  expect_lt(abs(tab$NPV -
+                  caret_multiclass$byClass['Class: d', 'Neg Pred Value']), 1e-3)
+  expect_lt(abs(tab$`F1/Dice` -
+                  caret_multiclass$byClass['Class: d', 'F1']), 1e-3)
+  expect_lt(abs(tab$Prevalence -
+                  caret_multiclass$byClass['Class: d', 'Prevalence']), 1e-3)
+  expect_lt(abs(tab$`Detection Rate` -
+                  caret_multiclass$byClass['Class: d', 'Detection Rate']), 1e-3)
+  expect_lt(abs(tab$`Detection Prevalence` -
+                  caret_multiclass$byClass['Class: d', 'Detection Prevalence']), 1e-3)
+  expect_lt(abs(tab$`Balanced Accuracy` -
+                  caret_multiclass$byClass['Class: d', 'Balanced Accuracy']), 1e-3)
 })
 

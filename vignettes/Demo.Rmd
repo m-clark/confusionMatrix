@@ -9,7 +9,7 @@ output:
     toc_depth: 2
     df_print: kable
 vignette: >
-  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteIndexEntry{A demonstration}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

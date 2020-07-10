@@ -4,9 +4,16 @@
 \alias{confusion_matrix}
 \title{Calculate various statistics from a confusion matrix}
 \usage{
-confusion_matrix(prediction, target, positive = NULL,
-  prevalence = NULL, return_table = FALSE, dnn = c("Predicted",
-  "Target"), longer = FALSE, ...)
+confusion_matrix(
+  prediction,
+  target,
+  positive = NULL,
+  prevalence = NULL,
+  return_table = FALSE,
+  dnn = c("Predicted", "Target"),
+  longer = FALSE,
+  ...
+)
 }
 \arguments{
 \item{prediction}{A vector of predictions}

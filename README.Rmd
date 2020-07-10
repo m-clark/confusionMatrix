@@ -13,14 +13,12 @@ knitr::opts_chunk$set(
 ```
 
 <!-- badges: start -->
-  [![Travis build status](https://travis-ci.org/m-clark/confusionMatrix.svg?branch=master)](https://travis-ci.org/m-clark/confusionMatrix)
-  [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/m-clark/confusionMatrix?branch=master&svg=true)](https://ci.appveyor.com/project/m-clark/confusionMatrix)
+
+[![R build status](https://github.com/m-clark/confusionMatrix/workflows/R-CMD-check/badge.svg)](https://github.com/m-clark/confusionMatrix/actions)
   [![Codecov test coverage](https://codecov.io/gh/m-clark/confusionMatrix/branch/master/graph/badge.svg)](https://codecov.io/gh/m-clark/confusionMatrix?branch=master)
   [![Lifecycle: maturing](https://img.shields.io/badge/lifecycle-experimental-blue.svg)](https://www.tidyverse.org/lifecycle/#experimental)
-<!-- <a href="https://github.com/m-clark/confusionMatrix" alt="Miscellaneous Shenanigans"> -->
-<!--         <img src="https://img.shields.io/badge/Status-Meh-ff5500.svg?colorA=00aaff&longCache=true&style=for-the-badge"  width=20.5%/></a> -->
 
- <!-- badges: end -->
+<!-- badges: end -->
  
 
 # confusionMatrix

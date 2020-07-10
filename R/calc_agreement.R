@@ -162,7 +162,7 @@ calc_agreement <- function(tabble) {
     # Calculate Peirce --------------------------------------------------------
 
     # same as Sensitivity + Specificity - 1
-    Peirce <- (a*b + b*c) / (a*b + 2*b*c + c*d)
+    Peirce <- a/(a + c) - b/(b + d)
 
     # Calculate Jaccard ---------------------------------
 

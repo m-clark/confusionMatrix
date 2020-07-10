@@ -40,4 +40,6 @@ test_that("calc_agreement returns correct results for additional stats", {
   expect_lt(abs(tab$Yule - psych_yule_2class), 1e-3)
 
   expect_lt(abs(tab$`Adjusted Rand` - e1071_rand_2class$crand), 1e-3)
+  stats = calc_stats(table(predict_class, y), positive = '1')
+  expect_lt(abs(tab$`Peirce` - (stats$`Sensitivity/Recall/TPR` + stats$`Specificity/TNR` - 1)), 1e-3)  # check peirce against sens + spec -1
 })

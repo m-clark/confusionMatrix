@@ -1,3 +1,7 @@
+# confusionMatrix 0.3.6
+
+* Update for latest R/dplyr, corrected Peirce stat, probably last update before refactor
+
 # confusionMatrix 0.3.5
 
 * Site ready to go
